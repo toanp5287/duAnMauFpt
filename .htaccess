@@ -1,0 +1,10 @@
+Options -Indexes
+RewriteEngine On
+
+# Bỏ qua nếu file/thư mục thực sự tồn tại
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Chuyển tất cả request về index.php (ngoại trừ /admin/)
+RewriteCond %{REQUEST_URI} !^/web-ban-hang/admin/
+RewriteRule ^ index.php [L,QSA]
