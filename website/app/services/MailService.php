@@ -14,8 +14,8 @@ class MailService
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
-            $mail->Username = 'toanp5287@gmail.com';      // email của cửa hàng
-            $mail->Password = 'zehj hfcp lthc iiqc';        // App Password
+            $mail->Username = 'toanp5287@gmail.com';
+            $mail->Password = 'zehj hfcp lthc iiqc';
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = 587;
 
@@ -24,7 +24,10 @@ class MailService
             $mail->Encoding = 'base64';
 
             // Người gửi
-            $mail->setFrom('toanp5287@gmail.com', 'Shop Điện Thoại');
+            $mail->setFrom(
+                'toanp5287@gmail.com',
+                'Shop Điện Thoại'
+            );
 
             // Người nhận
             $mail->addAddress($email);
@@ -32,12 +35,12 @@ class MailService
             // Nội dung
             $mail->isHTML(true);
             $mail->Subject = $subject;
-            $mail->Body    = $body;
+            $mail->Body = $body;
 
+            // Tắt debug SMTP
+            $mail->SMTPDebug = 0;
 
-            $mail->SMTPDebug = 2;
-            $mail->Debugoutput = 'html';
-
+            // Gửi mail
             $mail->send();
 
             return true;

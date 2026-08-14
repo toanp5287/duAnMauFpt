@@ -4,247 +4,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Quản lý chi tiết đơn hàng</title>
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://ireade.github.io/Toast.js/css/Toast.min.css">
-    <script src="https://ireade.github.io/Toast.js/js/Toast.min.js"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#165DFF',
-                        success: '#00B42A',
-                        danger: '#F53F3F',
-                    }
-                }
-            }
-        }
-    </script>
+    <title>Quản lý chi tiết đơn hàng | Tech Store Admin</title>
+    <?php include __DIR__ . '/components/head-resources.php'; ?>
 </head>
 
-<body class="bg-gray-100">
-
+<body>
     <div class="flex min-h-screen">
-
         <?php include 'sitebar.php'; ?>
 
-        <main class="flex-1 md:ml-64 p-6">
+        <main class="flex-1 lg:ml-64 pt-14 lg:pt-0 p-4 sm:p-6 lg:p-8 w-full min-w-0">
 
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
 
                 <div>
-                    <h1 class="text-3xl font-bold text-gray-800">
+                    <h1 class="text-xl sm:text-2xl font-bold text-slate-900">
                         Danh sách chi tiết đơn hàng
                     </h1>
 
-                    <p class="text-gray-500 mt-1">
+                    <p class="text-slate-500 mt-1 text-sm">
                         Quản lý thông tin khách hàng và sản phẩm
                     </p>
                 </div>
 
-                <form action="index.php" method="GET" class="flex gap-2 w-full md:w-auto">
-
+                <form action="index.php" method="GET" class="flex flex-col sm:flex-row gap-2 w-full lg:w-auto">
                     <input type="hidden" name="controller" value="order_detail">
-
                     <input type="hidden" name="action" value="search">
-
-                    <input
-                        type="search"
-                        name="keyword"
-                        placeholder="Tìm khách hàng hoặc sản phẩm..."
+                    <input type="search" name="keyword" placeholder="Tìm khách hàng hoặc sản phẩm..."
                         value="<?php echo $_GET['keyword'] ?? ''; ?>"
-                        class="border border-gray-300 px-4 py-2 rounded-xl w-full md:w-80 focus:outline-none focus:ring-2 focus:ring-primary">
-
-                    <button
-                        type="submit"
-                        class="bg-success hover:bg-green-700 text-white px-5 py-2 rounded-xl font-medium">
-                        🔍 Tìm
-                    </button>
+                        class="adm-input h-10 px-4 text-sm w-full sm:min-w-[240px]">
+                    <button type="submit" class="adm-btn-success h-10 px-5 whitespace-nowrap">Tìm</button>
                 </form>
             </div>
 
-            <div class="bg-white rounded-2xl shadow overflow-hidden">
-
+            <div class="adm-card overflow-hidden">
                 <div class="overflow-x-auto">
-
-                    <table class="w-full">
-
-                        <thead class="bg-gray-50 border-b">
-
+                    <table class="adm-table w-full min-w-[640px]">
+                        <thead>
                             <tr>
-
-                                <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">
-                                    ID
-                                </th>
-
-                                <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">
-                                    Sản phẩm
-                                </th>
-
-                                <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">
-                                    Số lượng
-                                </th>
-
-                                <th class="px-6 py-4 text-left text-sm font-semibold text-gray-600">
-                                    Giá
-                                </th>
-
-
+                                <th>ID</th>
+                                <th>Sản phẩm</th>
+                                <th>Số lượng</th>
+                                <th>Giá</th>
                             </tr>
-
                         </thead>
-
                         <tbody>
-
-                            <?php if (empty($don_hang)): ?>
-
+                            <?php if (empty($don_hang)) { ?>
                                 <tr>
-                                    <td colspan="7" class="text-center py-14 text-gray-400">
-
-                                        <div class="text-5xl mb-3">
-                                            📭
-                                        </div>
-
-                                        Không có dữ liệu
-
-                                    </td>
-
+                                    <td colspan="4" class="text-center py-14 text-slate-400">Không có dữ liệu</td>
                                 </tr>
-
-                            <?php else: ?>
-
+                            <?php } else { ?>
                                 <?php foreach ($don_hang as $row) { ?>
-
-                                    <tr class="border-b hover:bg-blue-50 transition">
-
-                                        <td class="px-6 py-4 text-sm font-medium text-gray-800">
-                                            #<?php echo $row['idCT']; ?>
-                                        </td>
-
-
-
-                                        <td class="px-6 py-4 text-sm text-gray-700">
-                                            <?php echo htmlspecialchars($row['ten_san_pham']); ?>
-                                        </td>
-
-                                        <td class="px-6 py-4 text-sm text-gray-700">
-                                            <?php echo $row['sl']; ?>
-                                        </td>
-
-                                        <td class="px-6 py-4 text-sm font-semibold text-success">
-                                            <?php echo number_format($row['gia']); ?> đ
-                                        </td>
-
-
-                                        <td class="px-6 py-4">
-
-                                        </td>
-
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-center">
-
-                                        </td>
-
+                                    <tr>
+                                        <td class="font-medium text-slate-900">#<?php echo $row['idCT']; ?></td>
+                                        <td><?php echo htmlspecialchars($row['ten_san_pham']); ?></td>
+                                        <td><?php echo $row['sl']; ?></td>
+                                        <td class="font-semibold text-green-600 whitespace-nowrap"><?php echo number_format($row['gia']); ?> đ</td>
                                     </tr>
-
                                 <?php } ?>
-
-                            <?php endif; ?>
-
+                            <?php } ?>
                         </tbody>
-
                     </table>
-
                 </div>
-
             </div>
-            <div class="mt-8 bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+
+            <div class="mt-6 sm:mt-8 adm-card p-5 sm:p-6">
 
                 <!-- Header -->
                 <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-xl font-bold text-gray-800">
-                        📋 Thông tin đơn hàng
+                    <h2 class="text-lg font-bold text-slate-900">
+                        Thông tin đơn hàng
                     </h2>
 
-                    <span class="px-3 py-1 text-xs rounded-full bg-blue-50 text-blue-600 font-medium">
+                    <span class="adm-badge-blue">
                         #<?= $thongTin['maDon'] ?>
                     </span>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
 
                     <!-- KHÁCH HÀNG -->
-                    <div class="bg-gray-50 rounded-xl p-5 space-y-4">
+                    <div class="bg-slate-50 rounded-xl p-5 space-y-4 border border-slate-200">
 
-                        <h3 class="font-semibold text-gray-700 mb-2">
-                            👤 Thông tin khách hàng
+                        <h3 class="font-semibold text-slate-700 mb-2">
+                            Thông tin khách hàng
                         </h3>
 
                         <div>
-                            <p class="text-xs text-gray-500">Tên khách hàng</p>
-                            <p class="font-semibold text-gray-800">
+                            <p class="text-xs text-slate-500">Tên khách hàng</p>
+                            <p class="font-semibold text-slate-900">
                                 <?= htmlspecialchars($thongTin['ten_khach_hang']) ?>
                             </p>
                         </div>
 
                         <div>
-                            <p class="text-xs text-gray-500">Số điện thoại</p>
-                            <p class="font-semibold text-gray-800">
+                            <p class="text-xs text-slate-500">Số điện thoại</p>
+                            <p class="font-semibold text-slate-900">
                                 <?= htmlspecialchars($thongTin['so_dien_thoai']) ?>
                             </p>
                         </div>
 
                         <div>
-                            <p class="text-xs text-gray-500">Địa chỉ nhận hàng</p>
-                            <p class="font-semibold text-gray-800 leading-relaxed">
+                            <p class="text-xs text-slate-500">Địa chỉ nhận hàng</p>
+                            <p class="font-semibold text-slate-900 leading-relaxed">
                                 <?= htmlspecialchars($thongTin['dia_chi']) ?>
                             </p>
                         </div>
-                        <div class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-4">
+                        <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-slate-900 mb-4">
                                 Trạng thái thanh toán đơn hàng
                             </h3>
 
                             <?php if ($thongTin['payment_status'] == 0): ?>
-                                <span class="inline-flex items-center px-4 py-2 rounded-full bg-yellow-100 text-yellow-800 font-medium">
-                                    ⏳ Chưa thanh toán
-                                </span>
-
+                                <span class="adm-badge-amber">Chưa thanh toán</span>
                             <?php elseif ($thongTin['payment_status'] == 1): ?>
-                                <span class="inline-flex items-center px-4 py-2 rounded-full bg-green-100 text-green-700 font-medium">
-                                    ✅ Đã thanh toán
-                                </span>
-
+                                <span class="adm-badge-green">Đã thanh toán</span>
                             <?php elseif ($thongTin['payment_status'] == 2): ?>
-                                <span class="inline-flex items-center px-4 py-2 rounded-full bg-orange-100 text-orange-700 font-medium">
-                                    🚫 Khách hàng hủy thanh toán
-                                </span>
-
+                                <span class="adm-badge-amber">Khách hàng hủy thanh toán</span>
                             <?php elseif ($thongTin['payment_status'] == 3): ?>
-                                <span class="inline-flex items-center px-4 py-2 rounded-full bg-red-100 text-red-700 font-medium">
-                                    ❌ Thanh toán thất bại
-                                </span>
-
+                                <span class="adm-badge-red">Thanh toán thất bại</span>
                             <?php endif; ?>
                         </div>
                     </div>
 
                     <!-- ĐƠN HÀNG -->
-                    <div class="bg-gray-50 rounded-xl p-5 space-y-4">
+                    <div class="bg-slate-50 rounded-xl p-5 space-y-4 border border-slate-200">
 
-                        <h3 class="font-semibold text-gray-700 mb-2">
-                            📦 Trạng thái đơn hàng
+                        <h3 class="font-semibold text-slate-700 mb-2">
+                            Trạng thái đơn hàng
                         </h3>
 
                         <!-- trạng thái -->
                         <div class="flex items-center justify-between">
 
                             <div>
-                                <p class="text-xs text-gray-500">Trạng thái hiện tại</p>
+                                <p class="text-xs text-slate-500">Trạng thái hiện tại</p>
 
-                                <span class="inline-block mt-1 px-3 py-1 text-xs rounded-full bg-green-100 text-green-700 font-semibold">
+                                <span class="adm-badge-green mt-1">
                                     <?= $row['nameTrangThai'] ?? 'Chưa xác định' ?>
                                 </span>
                             </div>
@@ -275,19 +170,13 @@
                         <form
                             action="index.php?controller=order_detail&action=approve_orders&iddon=<?= $row['order_id'] ?>"
                             method="POST"
-                            class="bg-gray-50 border border-gray-200 rounded-xl p-4 mt-4 space-y-4">
+                            class="bg-slate-50 border border-slate-200 rounded-xl p-4 mt-4 space-y-4">
 
                             <!-- Chọn trạng thái -->
-                            <div class="flex items-end gap-4">
-
+                            <div class="flex flex-col sm:flex-row sm:items-end gap-4">
                                 <div class="flex-1">
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                                        Trạng thái đơn hàng
-                                    </label>
-
-                                    <select
-                                        name="trangThai"
-                                        class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:border-blue-400">
+                                    <label for="trangThaiSelect" class="adm-label">Trạng thái đơn hàng</label>
+                                    <select id="trangThaiSelect" name="trangThai" class="adm-input h-10 px-3 text-sm w-full">
 
                                         <option value="<?= $currentStatus ?>" selected>
                                             <?= htmlspecialchars($statusNames[$currentStatus] ?? '') ?>
@@ -305,11 +194,7 @@
                                 </div>
 
                                 <?php if (!empty($allowedTransitions)): ?>
-                                    <button
-                                        type="submit"
-                                        class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-                                        Duyệt
-                                    </button>
+                                    <button type="submit" class="adm-btn-primary px-6 py-2 h-10 whitespace-nowrap">Duyệt</button>
                                 <?php endif; ?>
 
                             </div>
@@ -318,31 +203,15 @@
                             <?php if (in_array($currentStatus, [1, 2, 3])): ?>
 
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                                        Tin nhắn phản hồi
-                                    </label>
-
-                                    <textarea
-                                        name="message"
-                                        rows="3"
-                                        placeholder="Nhập nội dung phản hồi..."
-                                        class="w-full border border-gray-300 rounded-lg px-4 py-3
-                   focus:ring-2 focus:ring-blue-300
-                   focus:border-blue-400
-                   resize-none"></textarea>
+                                    <label for="orderMessage" class="adm-label">Tin nhắn phản hồi</label>
+                                    <textarea id="orderMessage" name="message" rows="3" placeholder="Nhập nội dung phản hồi..." class="adm-input px-4 py-3 text-sm min-h-[96px] resize-none w-full"></textarea>
                                 </div>
 
                             <?php elseif ($currentStatus == 8): ?>
 
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-2 text-red-600">
-                                        Lý do hủy đơn
-                                    </label>
-
-                                    <textarea
-                                        rows="3"
-                                        readonly
-                                        class="w-full border border-red-300 rounded-lg px-4 py-3 bg-gray-100 cursor-not-allowed"><?= htmlspecialchars($message) ?></textarea>
+                                    <label for="cancelReason" class="adm-label text-red-600">Lý do hủy đơn</label>
+                                    <textarea id="cancelReason" rows="3" readonly class="adm-input px-4 py-3 text-sm bg-slate-100 cursor-not-allowed w-full resize-none"><?= htmlspecialchars($message) ?></textarea>
                                 </div>
 
                             <?php endif; ?>
@@ -354,15 +223,15 @@
                 <!-- FOOTER INFO -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
 
-                    <div class="bg-gray-50 rounded-xl p-5">
-                        <p class="text-xs text-gray-500">Ngày đặt</p>
-                        <p class="font-semibold text-gray-800">
+                    <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                        <p class="text-xs text-slate-500">Ngày đặt</p>
+                        <p class="font-semibold text-slate-900">
                             <?= date('d/m/Y H:i', strtotime($thongTin['created_at'])) ?>
                         </p>
                     </div>
 
-                    <div class="bg-gray-50 rounded-xl p-5">
-                        <p class="text-xs text-gray-500">Tổng tiền</p>
+                    <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                        <p class="text-xs text-slate-500">Tổng tiền</p>
                         <p class="text-2xl font-bold text-green-600">
                             <?= number_format($thongTin['tong_tien']) ?> đ
                         </p>
@@ -372,9 +241,9 @@
 
                 <!-- GHI CHÚ -->
                 <?php if (!empty($thongTin['ghi_chu'])): ?>
-                    <div class="mt-6 bg-yellow-50 border border-yellow-100 rounded-xl p-5">
-                        <p class="text-xs text-yellow-600 mb-1">📝 Ghi chú</p>
-                        <p class="text-gray-700">
+                    <div class="mt-6 bg-amber-50 border border-amber-100 rounded-xl p-5">
+                        <p class="text-xs text-amber-600 mb-1 font-medium">Ghi chú</p>
+                        <p class="text-slate-700">
                             <?= htmlspecialchars($thongTin['ghi_chu']) ?>
                         </p>
                     </div>
@@ -385,27 +254,7 @@
 
     </div>
 
+    <?php include __DIR__ . '/components/toast-init.php'; ?>
 </body>
-<script>
-    // Xác nhận trước khi xóa tour
-    function confirmDelete(tourId) {
-        if (confirm('⚠️ Bạn chắc chắn muốn xóa tour này? Hành động không thể hoàn tác!')) {
-            window.location.href = `index.php?controller=san_pham&action=delete&id=${tourId}`;
-        }
-    }
-    window.onload = function() {
-        <?php if (isset($_SESSION['msg'])) { ?>
-            new Toast({
-                message: "<?php echo $_SESSION['msg']; ?>",
-                type: "<?php echo $_SESSION['type']; ?>",
-                timeout: 3000
-            });
-            <?php
-            unset($_SESSION['msg']);
-            unset($_SESSION['type']);
-            ?>
-        <?php }; ?>
-    };
-</script>
 
 </html>

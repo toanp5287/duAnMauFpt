@@ -25,6 +25,15 @@ require_once $website . '/app/models/PaymentModel.php';
 // ─── SERVICES ────────────────────────────────────────────────────────────────
 require_once $website . '/app/services/MailService.php';
 
+// validate
+require_once __DIR__ . '/shared/form_helpers.php';
+// require_once __DIR__ . '/shared/test_admin_product_category.php';
+// require_once __DIR__ . '/shared/test_auth_register_login.php';
+// require_once __DIR__ . '/shared/test_cart_checkout.php';
+// require_once __DIR__ . '/shared/test_review_forms.php';
+// require_once __DIR__ . '/shared/test_validator.php';
+require_once __DIR__ . '/shared/upload_helpers.php';
+require_once __DIR__ . '/shared/Validator.php';
 // ─── CONTROLLERS ─────────────────────────────────────────────────────────────
 require_once $website . '/app/controllers/controller-home-page.php';
 require_once $website . '/app/controllers/controller-category.php';

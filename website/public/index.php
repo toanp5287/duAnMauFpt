@@ -1,6 +1,8 @@
 <?php
 session_start();
 require_once __DIR__ . '/../config/Database.php';
+require_once __DIR__ . '/../../shared/Validator.php';
+require_once __DIR__ . '/../../shared/form_helpers.php';
 
 
 require_once __DIR__ . '/../../vendor/autoload.php';

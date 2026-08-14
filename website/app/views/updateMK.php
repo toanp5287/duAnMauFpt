@@ -1,213 +1,65 @@
-<script src="https://cdn.tailwindcss.com"></script>
-
-<main class="min-h-screen bg-sky-50 flex items-center justify-center p-6">
-
-  <div class="w-full max-w-lg bg-white rounded-2xl shadow-lg p-8">
-
-    <!-- Tiêu đề -->
-    <div class="text-center mb-8">
-      <h1 class="text-3xl font-bold text-sky-600">
-        Đổi mật khẩu
-      </h1>
-
-      <p class="text-gray-500 mt-2">
-        Vui lòng nhập mật khẩu hiện tại và mật khẩu mới.
-      </p>
-    </div>
-
-
-    <!-- Form -->
-    <form
-      action="index.php?controller=login&action=updateMKuser"
-      method="POST"
-      class="space-y-6">
-
-      <!-- Mật khẩu hiện tại -->
-      <div>
-
-        <label class="block text-gray-700 font-medium mb-2">
-          Mật khẩu hiện tại
-        </label>
-
-        <input
-          type="password"
-          name="currentPassword"
-          placeholder="Nhập mật khẩu hiện tại"
-          required
-          class="
-                        w-full
-                        border border-gray-300
-                        rounded-xl
-                        px-4 py-3
-                        outline-none
-                        focus:border-sky-500
-                        focus:ring-2
-                        focus:ring-sky-200
-                        transition
-                    ">
-
-        <?php if (!empty($errolcurrentPassword)): ?>
-
-          <p class="mt-2 text-sm text-red-500">
-            <?= $errolcurrentPassword ?>
-          </p>
-
-        <?php endif; ?>
-
-      </div>
-
-
-      <!-- Mật khẩu mới -->
-      <div>
-
-        <label class="block text-gray-700 font-medium mb-2">
-          Mật khẩu mới
-        </label>
-
-        <input
-          type="password"
-          name="newPassword"
-          placeholder="Nhập mật khẩu mới"
-          required
-          class="
-                        w-full
-                        border border-gray-300
-                        rounded-xl
-                        px-4 py-3
-                        outline-none
-                        focus:border-sky-500
-                        focus:ring-2
-                        focus:ring-sky-200
-                        transition
-                    ">
-
-      </div>
-
-
-      <!-- Xác nhận mật khẩu -->
-      <div>
-
-        <label class="block text-gray-700 font-medium mb-2">
-          Xác nhận mật khẩu mới
-        </label>
-
-        <input
-          type="password"
-          name="ConfirmPassword"
-          placeholder="Nhập lại mật khẩu mới"
-          required
-          class="
-                        w-full
-                        border border-gray-300
-                        rounded-xl
-                        px-4 py-3
-                        outline-none
-                        focus:border-sky-500
-                        focus:ring-2
-                        focus:ring-sky-200
-                        transition
-                    ">
-
-        <?php if (!empty($errolConfirmPassword)): ?>
-
-          <p class="mt-2 text-sm text-red-500">
-            <?= $errolConfirmPassword ?>
-          </p>
-
-        <?php endif; ?>
-
-      </div>
-
-
-      <!-- Nút -->
-      <div class="flex flex-col sm:flex-row gap-3 pt-3">
-
-        <!-- Cập nhật -->
-        <button
-          type="submit"
-          class="
-                        flex-1
-                        h-12
-                        inline-flex
-                        items-center
-                        justify-center
-                        gap-2
-                        rounded-xl
-                        bg-sky-500
-                        text-white
-                        text-sm
-                        font-bold
-                        shadow-sm
-                        hover:bg-sky-600
-                        hover:shadow-md
-                        active:scale-[0.98]
-                        transition-all
-                        duration-200
-                    ">
-
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="w-5 h-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M5 13l4 4L19 7" />
-          </svg>
-
-          Cập nhật mật khẩu
-
-        </button>
-
-
-        <!-- Hủy -->
-        <a
-          href="index.php?controller=login&action=controllerGETuser"
-          class="
-                        flex-1
-                        h-12
-                        inline-flex
-                        items-center
-                        justify-center
-                        gap-2
-                        rounded-xl
-                        border
-                        border-gray-200
-                        bg-white
-                        text-gray-700
-                        text-sm
-                        font-bold
-                        hover:bg-gray-50
-                        hover:border-gray-300
-                        active:scale-[0.98]
-                        transition-all
-                        duration-200
-                    ">
-
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="w-5 h-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M6 18L18 6M6 6l12 12" />
-          </svg>
-
-          Hủy
-
-        </a>
-
-      </div>
-
-    </form>
-
-  </div>
-
-</main>
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Đổi mật khẩu | Tech Store</title>
+  <?php include __DIR__ . '/components/head-resources.php'; ?>
+</head>
+
+<body class="font-sans bg-slate-50 text-slate-700 antialiased">
+  <div class="flex flex-col min-h-screen">
+    <?php include __DIR__ . '/components/header.php'; ?>
+
+    <main class="flex-1 py-8 lg:py-10">
+      <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col lg:flex-row gap-6 lg:gap-8">
+          <?php $accountActive = 'password'; include __DIR__ . '/components/account-sidebar.php'; ?>
+
+          <div class="flex-1 min-w-0">
+            <div class="ds-card p-5 sm:p-8 max-w-lg">
+              <div class="mb-6 sm:mb-8">
+                <h1 class="text-xl sm:text-2xl font-bold text-slate-900">Đổi mật khẩu</h1>
+                <p class="text-slate-500 mt-2 text-sm">Vui lòng nhập mật khẩu hiện tại và mật khẩu mới.</p>
+              </div>
+
+              <?php $errors = $errors ?? form_get_errors(); ?>
+              <?php include __DIR__ . '/components/form-success.php'; ?>
+              <?php if (!empty($errors['form'])): ?>
+                <p class="text-sm text-red-600 mb-4" role="alert"><?= htmlspecialchars($errors['form'], ENT_QUOTES, 'UTF-8') ?></p>
+              <?php endif; ?>
+
+              <form action="index.php?controller=login&action=updateMKuser" method="POST" class="space-y-5" novalidate>
+                <div>
+                  <label for="currentPassword" class="ds-label">Mật khẩu hiện tại</label>
+                  <input id="currentPassword" type="password" name="currentPassword" placeholder="Nhập mật khẩu hiện tại" class="<?= form_input_class($errors, 'currentPassword') ?>"<?= form_field_attrs($errors, 'currentPassword', 'currentPassword') ?> />
+                  <?php $field = 'currentPassword'; $inputId = 'currentPassword'; include __DIR__ . '/components/form-error.php'; ?>
+                </div>
+                <div>
+                  <label for="newPassword" class="ds-label">Mật khẩu mới</label>
+                  <input id="newPassword" type="password" name="newPassword" placeholder="Nhập mật khẩu mới" class="<?= form_input_class($errors, 'newPassword') ?>"<?= form_field_attrs($errors, 'newPassword', 'newPassword') ?> />
+                  <?php $field = 'newPassword'; $inputId = 'newPassword'; include __DIR__ . '/components/form-error.php'; ?>
+                </div>
+                <div>
+                  <label for="ConfirmPassword" class="ds-label">Xác nhận mật khẩu mới</label>
+                  <input id="ConfirmPassword" type="password" name="ConfirmPassword" placeholder="Nhập lại mật khẩu mới" class="<?= form_input_class($errors, 'ConfirmPassword') ?>"<?= form_field_attrs($errors, 'ConfirmPassword', 'ConfirmPassword') ?> />
+                  <?php $field = 'ConfirmPassword'; $inputId = 'ConfirmPassword'; include __DIR__ . '/components/form-error.php'; ?>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                  <button type="submit" class="ds-btn-primary flex-1 h-11">Cập nhật mật khẩu</button>
+                  <a href="index.php?controller=login&action=controllerGETuser" class="ds-btn-secondary flex-1 h-11">Hủy</a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <?php include __DIR__ . '/components/footer.php'; ?>
+  </div>
+</body>
+
+</html>
+

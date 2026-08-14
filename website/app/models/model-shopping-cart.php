@@ -24,6 +24,7 @@ class Model_shopping
     orders.so_dien_thoai,
     orders.ten_khach_hang,
     orders.maDon,
+    orders.cach_thanh_toan,
     orders.tong_tien,
     orders.created_at,
     orders.trang_thai_id,
@@ -47,6 +48,7 @@ ORDER BY orders.id DESC";
                 ghct.id,
                 ghct.so_luong,
                 sp.id AS san_pham_id,
+                sp.so_luong as sl,
                 sp.ten_san_pham,
                 sp.gia,
                 sp.hinh_anh
@@ -390,6 +392,18 @@ WHERE gh.user_id = :user_id";
             ':message' => $message,
             ':is_read' => $is_read,
 
+        ]);
+    }
+
+    // caap nhaat dia chi don hang(been nguoi dung)
+    public function updateDiaChi($orderId, $phone, $dia_chi)
+    {
+        $sql = "UPDATE orders SET so_dien_thoai=:phone, dia_chi=:dia_chi WHERE id=:orderId";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([
+            ":phone" => $phone,
+            ":dia_chi" => $dia_chi,
+            ":orderId" => $orderId,
         ]);
     }
 }

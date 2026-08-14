@@ -3,82 +3,62 @@
 class Auth
 {
     private $modelAUTH;
+
     public function __construct()
     {
         $this->modelAUTH = new Data_auth();
     }
+
     public function index()
     {
-        require __DIR__ . '/../Views/login-admin.php';
+        $errors = form_get_errors();
+        require __DIR__ . '/../views/login-admin.php';
     }
 
     public function login()
     {
-
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            $validator = Validator::make($_POST, [
+                'email'    => 'required|email|max:255',
+                'password' => 'required|max:255',
+            ], [
+                'email.required'    => 'Vui lòng nhập email.',
+                'password.required' => 'Vui lòng nhập mật khẩu.',
+                'email.email'       => 'Email không đúng định dạng.',
+            ]);
 
+            if ($validator->fails()) {
+                Validator::flashInput($_POST, ['password']);
+                form_set_errors($validator->errorsFlat());
+                require __DIR__ . '/../views/login-admin.php';
+                return;
+            }
 
-
-            $email = $_POST['email'] ?? '';
-            $password = $_POST['password'] ?? '';
+            $email = trim($_POST['email'] ?? '');
+            $password = trim($_POST['password'] ?? '');
 
             $user = $this->modelAUTH->data_login($email, $password);
 
             if ($user) {
-
-                // session admin
                 $_SESSION['admin'] = $user;
-
                 $_SESSION['msg'] = "Đăng nhập thành công";
                 $_SESSION['type'] = "info";
-
                 header("Location: index.php?controller=san_pham&action=index");
                 exit();
-            } else {
-
-                $error = "Sai tài khoản hoặc mật khẩu";
-
-                require __DIR__ . '/../views/login-admin.php';
             }
+
+            Validator::flashInput($_POST, ['password']);
+            form_set_errors(['auth' => 'Sai tài khoản hoặc mật khẩu']);
+            require __DIR__ . '/../views/login-admin.php';
         } else {
             require __DIR__ . '/../views/login-admin.php';
         }
     }
 
-    //    public function dang_ky()
-    //     {
-    //         if ($_SERVER['REQUEST_METHOD'] == "POST") {
-
-    //             $model = new Data_auth;
-
-    //             $email = $_POST['email'] ?? '';
-    //             $password = $_POST['mk'] ?? '';
-
-    //             $result = $model->data_dang_ky($email, $password);
-
-    //             if ($result == "email_ton_tai") {
-
-    //                 header("Location: /web-ban-hang/admin/index.php?controller=auth&action=dang_ky&error=email_ton_tai");
-    //                 exit();
-    //             } elseif ($result) {
-
-    //                 header("Location: /web-ban-hang/admin/index.php?controller=auth&action=index");
-    //                 exit();
-    //             } else {
-
-    //                 echo "Đăng ký thất bại";
-    //             }
-    //         }
-
-    //         require __DIR__ . '/../V iews/dang-ky.php';
-    //     }
-
     public function logout()
     {
         session_unset();
-
         session_destroy();
-
         header("Location: index.php?controller=auth&action=index");
         exit();
     }
@@ -90,7 +70,6 @@ function checkLogin()
         !isset($_SESSION['admin']) ||
         $_SESSION['admin']['role'] != 1
     ) {
-
         header("Location: index.php?controller=auth&action=index");
         exit();
     }

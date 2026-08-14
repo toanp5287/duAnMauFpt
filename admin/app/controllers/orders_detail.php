@@ -66,16 +66,43 @@ class Order_detail
     }
     public function approve_orders()
     {
-        $idTrangThai = (int)($_POST['trangThai'] ?? 0);
-        $iddon = (int)($_GET['iddon'] ?? 0);
+        checkLogin();
+
+        $idTrangThai = (int) ($_POST['trangThai'] ?? 0);
+        $iddon = (int) ($_GET['iddon'] ?? 0);
+        $message = trim($_POST['message'] ?? '');
+
+        if ($iddon <= 0) {
+            $_SESSION['msg'] = 'Đơn hàng không hợp lệ.';
+            $_SESSION['type'] = 'danger';
+            header('Location: index.php?controller=order_detail&action=index');
+            exit();
+        }
+
+        if ($idTrangThai <= 0) {
+            $_SESSION['msg'] = 'Trạng thái không hợp lệ.';
+            $_SESSION['type'] = 'danger';
+            header('Location: ' . ($_SERVER['HTTP_REFERER'] ?? 'index.php?controller=order_detail&action=index'));
+            exit();
+        }
+
+        if ($message !== '' && mb_strlen($message) > 1000) {
+            $_SESSION['msg'] = 'Tin nhắn quá dài.';
+            $_SESSION['type'] = 'danger';
+            header('Location: ' . ($_SERVER['HTTP_REFERER'] ?? 'index.php?controller=order_detail&action=index'));
+            exit();
+        }
 
         $order = $this->modelKhachHang->find_khach_hang($iddon);
-        // print_r($order);
-        // die();
-        $order_id = $order['order_id'];
+        if (!$order) {
+            $_SESSION['msg'] = 'Đơn hàng không tồn tại.';
+            $_SESSION['type'] = 'danger';
+            header('Location: index.php?controller=order_detail&action=index');
+            exit();
+        }
 
+        $order_id = $order['order_id'];
         $user_id = $order['user_id'];
-        $message = $_POST['message'] ?? '';
 
         $result = $this->modelHangChiTiet->modelDuyetDon($idTrangThai, $iddon);
 

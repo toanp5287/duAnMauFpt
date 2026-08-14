@@ -1,77 +1,45 @@
-<script src="https://cdn.tailwindcss.com"></script>
-
-
-<body class="bg-gradient-to-br from-indigo-100 to-blue-200 min-h-screen flex items-center justify-center p-4">
-
-    <div class="bg-white/90 backdrop-blur-md shadow-2xl rounded-2xl p-8 w-full max-w-md">
-
-        <div class="text-center mb-6">
-
-            <div class="w-16 h-16 mx-auto bg-indigo-600 rounded-full flex items-center justify-center text-white mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg"
-                    width="30"
-                    height="30"
-                    fill="currentColor"
-                    viewBox="0 0 24 24">
-                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-                </svg>
-            </div>
-
-            <h2 class="text-3xl font-bold text-gray-800">
-                đăng nhập admin
-            </h2>
-
-            <p class="text-gray-500 mt-2">
-                Đăng nhập vào tài khoản admin của bạn
-            </p>
-
-        </div>
-
-        <?php if (isset($error)): ?>
-            <div class="bg-red-100 border border-red-300 text-red-600 rounded-lg p-3 mb-4 text-center">
-                <?php echo $error; ?>
-            </div>
-        <?php endif; ?>
-
-        <form action="index.php?controller=auth&action=login"
-            method="POST"
-            id="formSumit">
-
-            <div class="mb-4">
-                <label class="block mb-2 font-medium text-gray-700">
-                    Email
-                </label>
-
-                <input type="email"
-                    name="email"
-                    class="email w-full border border-gray-300 px-4 py-3 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 outline-none transition"
-                    placeholder="name@example.com">
-
-                <p id="emmailErrol" class="text-red-500 text-sm mt-1"></p>
-            </div>
-
-            <div class="mb-5">
-                <label class="block mb-2 font-medium text-gray-700">
-                    Mật khẩu
-                </label>
-
-                <input type="password"
-                    name="password"
-                    class="pass w-full border border-gray-300 px-4 py-3 rounded-lg focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 outline-none transition"
-                    placeholder="••••••••">
-
-                <p id="passErrol" class="text-red-500 text-sm mt-1"></p>
-            </div>
-
-            <button type="submit"
-                class="w-full bg-indigo-600 hover:bg-indigo-700 transition duration-300 text-white py-3 rounded-lg font-semibold shadow-lg">
-
-                Đăng nhập
-
-            </button>
-
-        </form>
-
-    </div>
-
-</body>
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập Admin | Tech Store</title>
+    <?php include __DIR__ . '/components/head-resources.php'; ?>
+</head>
+
+<body class="min-h-screen flex items-center justify-center p-4 sm:p-6">
+    <?php $errors = $errors ?? form_get_errors(); ?>
+    <div class="w-full max-w-md adm-card p-6 sm:p-8">
+        <div class="text-center mb-6">
+            <div class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center">
+                <svg class="w-7 h-7 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+            </div>
+            <h2 class="text-2xl font-bold text-slate-900">Đăng nhập Admin</h2>
+            <p class="text-slate-500 mt-2 text-sm">Đăng nhập vào tài khoản quản trị</p>
+        </div>
+
+        <?php if (!empty($errors['auth'])): ?>
+            <p class="text-sm text-red-600 mb-4 text-center" role="alert"><?= htmlspecialchars($errors['auth'], ENT_QUOTES, 'UTF-8') ?></p>
+        <?php endif; ?>
+
+        <form action="index.php?controller=auth&action=login" method="POST" id="formSumit" class="space-y-4" novalidate>
+            <div>
+                <label for="adminEmail" class="adm-label">Email</label>
+                <input type="email" id="adminEmail" name="email" value="<?= form_old_value('email') ?>" class="<?= form_adm_input_class($errors, 'email') ?>" placeholder="name@example.com"<?= form_field_attrs($errors, 'email', 'adminEmail') ?>>
+                <?php $field = 'email'; $inputId = 'adminEmail'; include __DIR__ . '/components/form-error.php'; ?>
+            </div>
+            <div>
+                <label for="adminPassword" class="adm-label">Mật khẩu</label>
+                <input type="password" id="adminPassword" name="password" class="<?= form_adm_input_class($errors, 'password') ?>" placeholder="••••••••"<?= form_field_attrs($errors, 'password', 'adminPassword') ?>>
+                <?php $field = 'password'; $inputId = 'adminPassword'; include __DIR__ . '/components/form-error.php'; ?>
+            </div>
+            <button type="submit" class="adm-btn-primary w-full h-11">Đăng nhập</button>
+        </form>
+    </div>
+</body>
+
+</html>
+

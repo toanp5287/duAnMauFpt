@@ -4,204 +4,529 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- ✅ META SEO CHUẨN -->
-    <title>Quản alý danh sách Tour du lịch | Hệ thống quản trị</title>
-    <meta name="description" content="Trang quản lý danh sách tất cả tour du lịch, xem giá, thời gian khởi hành, chỉnh sửa và xóa tour">
+    <title>Quản lý sản phẩm | Tech Store Admin</title>
     <meta name="robots" content="noindex, nofollow">
-    <link rel="canonical" href="https://domaincuaban.com/index.php?controller=tour">
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://ireade.github.io/Toast.js/css/Toast.min.css">
-    <script src="https://ireade.github.io/Toast.js/js/Toast.min.js"></script>
-
-    <!-- Cấu hình màu chủ đề ngành du lịch -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#165DFF',
-                        success: '#00B42A',
-                        danger: '#F53F3F',
-                        warning: '#FF7D00'
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'system-ui', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-
-    <style type="text/tailwindcss">
-        @layer utilities {
-            .content-auto {
-                content-visibility: auto;
-            }
-            .hover-row {
-                transition: all 180ms ease-out;
-            }
-            .table-shadow {
-                box-shadow: 0 4px 20px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
-            }
-        }
-    </style>
+    <?php include __DIR__ . '/components/head-resources.php'; ?>
 </head>
 
-<body class="bg-gray-50 font-sans text-gray-800">
+<body>
 
     <div class="flex min-h-screen">
-        <!-- Sidebar giữ nguyên logic của bạn -->
-        <?php include 'sitebar.php'; ?>
-        <!-- Nội dung chính -->
-        <main class="ml-0 md:ml-64 flex-1 p-4 md:p-8 w-full">
 
-            <!-- Tiêu đề trang - SEMANTIC HTML SEO -->
-            <header class="mb-7">
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+        <?php include __DIR__ . '/sitebar.php'; ?>
+
+        <main class="flex-1 lg:ml-64 pt-14 lg:pt-0 p-4 sm:p-6 lg:p-8 w-full min-w-0">
+
+            <!-- HEADER -->
+            <header class="mb-6 sm:mb-8">
+
+                <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+
                     <div>
-                        <nav class="text-sm text-gray-500 mb-2">
-                            <span>Trang chủ</span> / <span class="text-gray-700">Quản lý Tour</span>
+                        <nav class="text-sm text-slate-500 mb-2">
+                            <span>Trang chủ</span>
+                            /
+                            <span class="text-slate-700">Quản lý sản phẩm</span>
                         </nav>
-                        <h1 class="text-[clamp(1.5rem,3vw,2.2rem)] font-bold text-gray-900">
-                            Danh sách san pham
+
+                        <h1 class="text-xl sm:text-2xl font-bold text-slate-900">
+                            Danh sách sản phẩm
                         </h1>
-                        <p class="text-gray-500 mt-1">Quản lý tất cả san pham</p>
+
+                        <p class="text-slate-500 mt-1 text-sm">
+                            Quản lý tất cả sản phẩm
+                        </p>
                     </div>
 
-                    <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-                        <a href="index.php?controller=san_pham&action=create"
-                            class="bg-primary hover:bg-primary/90 text-white px-5 py-2.5 rounded-xl transition-all duration-200 text-center shadow-lg shadow-primary/15 hover:shadow-primary/25 hover:-translate-y-0.5 font-medium">
-                            ➕ Thêm san pham mới
+                    <div class="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+
+                        <a
+                            href="index.php?controller=san_pham&action=create"
+                            class="adm-btn-primary px-5 py-2.5 text-center whitespace-nowrap">
+                            Thêm sản phẩm mới
                         </a>
 
-                        <!-- Form tìm kiếm -->
-                        <form action="index.php" method="GET" class="flex gap-2">
+                        <form
+                            action="index.php"
+                            method="GET"
+                            class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+
                             <input type="hidden" name="controller" value="tour">
                             <input type="hidden" name="action" value="search">
 
-                            <input type="search" name="ten_loai" placeholder="Tìm tên tour, loại tour..."
-                                class="border border-gray-200 px-4 py-2.5 rounded-xl w-full focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary bg-white">
+                            <input
+                                type="search"
+                                name="ten_loai"
+                                placeholder="Tìm tên sản phẩm..."
+                                class="adm-input h-10 px-4 text-sm w-full sm:min-w-[200px]">
 
-                            <button type="submit"
-                                class="bg-success hover:bg-success/90 text-white px-5 py-2.5 rounded-xl transition-all shadow shadow-success/10 font-medium whitespace-nowrap">
-                                🔍 Tìm
+                            <button
+                                type="submit"
+                                class="adm-btn-success h-10 px-5 whitespace-nowrap">
+                                Tìm
                             </button>
+
                         </form>
+
                     </div>
+
                 </div>
+
             </header>
 
-            <!-- Bảng danh sách -->
-            <div class="bg-white rounded-2xl table-shadow overflow-hidden border border-gray-100">
 
-                <!-- ✅ Responsive table: tự động cuộn ngang trên điện thoại -->
+            <!-- TABLE -->
+            <div class="adm-card overflow-hidden">
+
                 <div class="overflow-x-auto">
-                    <table class="w-full">
+
+                    <table class="adm-table w-full min-w-[800px]">
+
                         <thead>
-                            <tr class="bg-gray-50 border-b border-gray-100">
-                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">ID</th>
-                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Tên san pham</th>
-                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">gia</th>
-                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">so luong</th>
-                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">mo ta</th>
-                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">loai hang</th>
-                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">hinh anh</th>
-                                <th class="px-6 py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Thao tác</th>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Giá</th>
+                                <th>Số lượng</th>
+                                <th>Mô tả</th>
+                                <th>Loại hàng</th>
+                                <th>Hình ảnh</th>
+                                <th class="text-center">Thao tác</th>
                             </tr>
                         </thead>
+
                         <tbody>
-                            <?php if (empty($product)): ?>
-                                <!-- Trạng thái không có dữ liệu -->
+
+                            <?php if (empty($product)) { ?>
+
                                 <tr>
-                                    <td colspan="8" class="py-16 text-center text-gray-400">
-                                        <div class="text-4xl mb-3">📭</div>
-                                        Chưa có san pham nào được tạo
+
+                                    <td
+                                        colspan="8"
+                                        class="py-16 text-center text-slate-400">
+
+                                        Chưa có sản phẩm nào được tạo
+
                                     </td>
+
                                 </tr>
-                            <?php endif; ?>
+
+                            <?php } ?>
+
 
                             <?php foreach ($product as $row) { ?>
-                                <tr class="hover-row border-b border-gray-50 hover:bg-blue-50/50 hover:shadow-inner">
 
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                        #<?php echo $row['id']; ?>
+                                <tr>
+
+                                    <td class="font-medium text-slate-900 whitespace-nowrap">
+                                        #<?= $row['id']; ?>
                                     </td>
 
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                        <?php echo htmlspecialchars($row['ten_san_pham']); ?>
+
+                                    <td class="font-medium text-slate-900">
+
+                                        <?= htmlspecialchars($row['ten_san_pham']); ?>
+
                                     </td>
 
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-success">
-                                        <?php echo number_format($row['gia'], 0, ',', '.'); ?> đ
+
+                                    <td class="font-semibold text-green-600 whitespace-nowrap">
+
+                                        <?= number_format($row['gia'], 0, ',', '.'); ?> đ
+
                                     </td>
 
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                                        <?php echo $row['so_luong']; ?>
+
+                                    <td>
+                                        <?= $row['so_luong']; ?>
                                     </td>
-                                    <td class="px-6 py-4 text-sm text-gray-600 max-w-xs">
-                                        <?php
-                                        echo mb_strlen($row['mo_ta']) > 20
+
+
+                                    <td class="max-w-[160px] truncate">
+
+                                        <?= mb_strlen($row['mo_ta']) > 20
                                             ? mb_substr($row['mo_ta'], 0, 20) . '...'
-                                            : $row['mo_ta'];
-                                        ?>
+                                            : $row['mo_ta']; ?>
+
                                     </td>
 
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                        <?php echo htmlspecialchars($row['ten_loai']); ?>
+
+                                    <td>
+
+                                        <?= htmlspecialchars($row['ten_loai']); ?>
+
                                     </td>
 
-                                    <td class="px-6 py-4">
+
+                                    <td>
+
                                         <img
-                                            src="../public/uploads/<?= $row['hinh_anh']; ?>"
+                                            src="../public/uploads/<?= htmlspecialchars($row['hinh_anh']); ?>"
                                             width="80"
-                                            class="rounded-lg">
+                                            alt="<?= htmlspecialchars($row['ten_san_pham']); ?>"
+                                            class="rounded-lg border border-slate-200 object-cover max-w-[80px]">
+
                                     </td>
-                                    <td class="px-6 py-4 text-center whitespace-nowrap">
-                                        <a href="index.php?controller=san_pham&action=update&id=<?php echo $row['id']; ?>"
-                                            class="text-primary hover:text-primary/80 px-3 py-1 rounded-lg hover:bg-primary/10 transition">
-                                            ✏️ Sửa
-                                        </a>
-                                        <button onclick="confirmDelete(<?php echo $row['id']; ?>)"
-                                            class="text-danger hover:text-danger/80 px-3 py-1 rounded-lg hover:bg-danger/10 transition">
-                                            🗑️ Xóa
+
+
+                                    <!-- THAO TÁC -->
+                                    <td class="text-center whitespace-nowrap">
+
+                                        <!-- NÚT XEM -->
+                                        <button
+                                            type="button"
+                                            onclick='showProduct(<?= json_encode($row, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>)'
+                                            class="adm-btn-secondary px-3 py-1.5 text-xs mr-1">
+
+                                            Xem
+
                                         </button>
+
+
+                                        <!-- SỬA -->
+                                        <a
+                                            href="index.php?controller=san_pham&action=update&id=<?= $row['id']; ?>"
+                                            class="adm-btn-secondary px-3 py-1.5 text-xs mr-1">
+
+                                            Sửa
+
+                                        </a>
+
+
+                                        <!-- XÓA -->
+                                        <button
+                                            type="button"
+                                            onclick="confirmDelete(<?= $row['id']; ?>)"
+                                            class="adm-btn-danger px-3 py-1.5 text-xs">
+
+                                            Xóa
+
+                                        </button>
+
                                     </td>
-                                </tr>
 
                                 </tr>
+
                             <?php } ?>
+
                         </tbody>
+
                     </table>
+
                 </div>
 
             </div>
 
         </main>
+
     </div>
 
+
+    <!-- ============================= -->
+    <!-- OVERLAY -->
+    <!-- ============================= -->
+
+    <div
+        id="productOverlay"
+        class="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 hidden"
+        onclick="closeProduct()">
+    </div>
+
+
+    <!-- ============================= -->
+    <!-- PANEL CHI TIẾT -->
+    <!-- ============================= -->
+
+    <div
+        id="productPanel"
+        class="fixed top-0 right-0 h-full w-full sm:w-[480px] bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 overflow-y-auto">
+
+        <!-- HEADER PANEL -->
+
+        <div class="sticky top-0 bg-white border-b border-slate-200 px-5 py-4 flex items-center justify-between">
+
+            <div>
+
+                <h2 class="text-lg font-bold text-slate-900">
+                    Chi tiết sản phẩm
+                </h2>
+
+                <p class="text-xs text-slate-500 mt-1">
+                    Thông tin sản phẩm
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                onclick="closeProduct()"
+                class="w-9 h-9 rounded-lg flex items-center justify-center text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition">
+
+                <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24">
+
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M6 18L18 6M6 6l12 12" />
+
+                </svg>
+
+            </button>
+
+        </div>
+
+
+        <!-- CONTENT -->
+
+        <div class="p-5">
+
+
+            <!-- ẢNH -->
+
+            <div class="bg-slate-50 rounded-2xl border border-slate-200 p-6 flex justify-center">
+
+                <img
+                    id="detailImage"
+                    src=""
+                    alt=""
+                    class="w-full h-64 object-contain rounded-xl">
+
+            </div>
+
+
+            <!-- TÊN -->
+
+            <div class="mt-5">
+
+                <p class="text-xs text-slate-500 mb-1">
+                    Tên sản phẩm
+                </p>
+
+                <h3
+                    id="detailName"
+                    class="text-xl font-bold text-slate-900">
+                </h3>
+
+            </div>
+
+
+            <!-- THÔNG TIN -->
+
+            <div class="mt-5 grid grid-cols-2 gap-3">
+
+
+                <!-- ID -->
+
+                <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+
+                    <p class="text-xs text-slate-500">
+                        Mã sản phẩm
+                    </p>
+
+                    <p
+                        id="detailId"
+                        class="font-semibold text-slate-900 mt-1">
+                    </p>
+
+                </div>
+
+
+                <!-- GIÁ -->
+
+                <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+
+                    <p class="text-xs text-slate-500">
+                        Giá bán
+                    </p>
+
+                    <p
+                        id="detailPrice"
+                        class="font-bold text-green-600 mt-1">
+                    </p>
+
+                </div>
+
+
+                <!-- SỐ LƯỢNG -->
+
+                <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+
+                    <p class="text-xs text-slate-500">
+                        Số lượng
+                    </p>
+
+                    <p
+                        id="detailQuantity"
+                        class="font-semibold text-slate-900 mt-1">
+                    </p>
+
+                </div>
+
+
+                <!-- LOẠI -->
+
+                <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+
+                    <p class="text-xs text-slate-500">
+                        Loại hàng
+                    </p>
+
+                    <p
+                        id="detailCategory"
+                        class="font-semibold text-slate-900 mt-1">
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- MÔ TẢ -->
+
+            <div class="mt-5">
+
+                <p class="text-xs text-slate-500 mb-2">
+                    Mô tả sản phẩm
+                </p>
+
+                <div
+                    id="detailDescription"
+                    class="bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm text-slate-700 leading-6 whitespace-pre-line">
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ============================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ============================= -->
+
     <script>
-        // Xác nhận trước khi xóa tour
-        function confirmDelete(tourId) {
-            if (confirm('⚠️ Bạn chắc chắn muốn xóa tour này? Hành động không thể hoàn tác!')) {
-                window.location.href = `index.php?controller=san_pham&action=delete&id=${tourId}`;
-            }
+        function showProduct(product) {
+
+            // ID
+            document.getElementById('detailId').textContent =
+                '#' + (product.id ?? '');
+
+            // TÊN
+            document.getElementById('detailName').textContent =
+                product.ten_san_pham ?? 'Không có tên';
+
+            // GIÁ
+            const price = Number(product.gia ?? 0);
+
+            document.getElementById('detailPrice').textContent =
+                price.toLocaleString('vi-VN') + ' đ';
+
+            // SỐ LƯỢNG
+            document.getElementById('detailQuantity').textContent =
+                product.so_luong ?? 0;
+
+            // LOẠI
+            document.getElementById('detailCategory').textContent =
+                product.ten_loai ?? 'Chưa phân loại';
+
+            // MÔ TẢ
+            document.getElementById('detailDescription').innerHTML =
+                product.mo_ta ?? 'Chưa có mô tả';
+            // ẢNH
+            const image = document.getElementById('detailImage');
+
+            image.src =
+                '../public/uploads/' + (product.hinh_anh ?? '');
+
+            image.alt =
+                product.ten_san_pham ?? 'Sản phẩm';
+
+
+            // HIỆN OVERLAY
+            document
+                .getElementById('productOverlay')
+                .classList
+                .remove('hidden');
+
+
+            // HIỆN PANEL
+            setTimeout(() => {
+
+                document
+                    .getElementById('productPanel')
+                    .classList
+                    .remove('translate-x-full');
+
+            }, 10);
+
         }
-        window.onload = function() {
-            <?php if (isset($_SESSION['msg'])) { ?>
-                new Toast({
-                    message: "<?php echo $_SESSION['msg']; ?>",
-                    type: "<?php echo $_SESSION['type']; ?>",
-                    timeout: 3000
-                });
-                <?php
-                unset($_SESSION['msg']);
-                unset($_SESSION['type']);
-                ?>
-            <?php }; ?>
-        };
+
+
+        function closeProduct() {
+
+            // ĐẨY PANEL RA NGOÀI
+
+            document
+                .getElementById('productPanel')
+                .classList
+                .add('translate-x-full');
+
+
+            // ẨN OVERLAY
+
+            setTimeout(() => {
+
+                document
+                    .getElementById('productOverlay')
+                    .classList
+                    .add('hidden');
+
+            }, 300);
+
+        }
+
+
+        // NHẤN ESC ĐỂ ĐÓNG
+
+        document.addEventListener('keydown', function(event) {
+
+            if (event.key === 'Escape') {
+
+                closeProduct();
+
+            }
+
+        });
+
+
+        // XÓA SẢN PHẨM
+
+        function confirmDelete(productId) {
+
+            if (
+                confirm(
+                    'Bạn chắc chắn muốn xóa sản phẩm này? Hành động không thể hoàn tác!'
+                )
+            ) {
+
+                window.location.href =
+                    `index.php?controller=san_pham&action=delete&id=${productId}`;
+
+            }
+
+        }
     </script>
+
+
+    <?php include __DIR__ . '/components/toast-init.php'; ?>
 
 </body>
 

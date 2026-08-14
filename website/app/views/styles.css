@@ -1,10 +1,17 @@
-/* ── Design tokens ── */
+/* ── Design System tokens ── */
 :root {
-    --bg: #F9FAFB;
-    --primary: #2563EB;
-    --cta: #F97316;
-    --sale: #EF4444;
-    --text: #1F2937;
+    --ds-bg: #F8FAFC;
+    --ds-primary: #2563EB;
+    --ds-primary-hover: #1D4ED8;
+    --ds-success: #16A34A;
+    --ds-success-hover: #15803D;
+    --ds-danger: #DC2626;
+    --ds-warning: #F59E0B;
+    --ds-text: #334155;
+    --ds-text-heading: #0F172A;
+    --ds-text-muted: #64748B;
+    --ds-border: #E2E8F0;
+    --ds-price: #2563EB;
 }
 
 html {
@@ -12,23 +19,19 @@ html {
 }
 
 body {
-    background-color: var(--bg);
-    color: var(--text);
+    background-color: var(--ds-bg);
+    color: var(--ds-text);
+    font-family: 'Inter', system-ui, sans-serif;
 }
 
 /* ── Product card ── */
 .product-card-item {
-    border-radius: 16px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .product-card-item:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 32px rgba(37, 99, 235, 0.12);
-}
-
-.product-card-item .product-img-wrap {
-    border-radius: 14px;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    border-color: #CBD5E1;
 }
 
 .badge-new,
@@ -36,12 +39,6 @@ body {
 .badge-sale {
     display: none;
     align-items: center;
-    padding: 0.2rem 0.55rem;
-    border-radius: 6px;
-    font-size: 10px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
 }
 
 .product-card-item .badge-hot {
@@ -53,67 +50,34 @@ body {
 .product-card-item:nth-child(3n + 2) .badge-hot { display: none; }
 .product-card-item:nth-child(3n + 2) .badge-sale { display: inline-flex; }
 
-.badge-new {
-    background: #DBEAFE;
-    color: #1D4ED8;
+/* ── Banner slider dots ── */
+.slider-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 9999px;
+    background: #CBD5E1;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
-.badge-hot {
-    background: #FFEDD5;
-    color: #C2410C;
+.slider-dot.active {
+    width: 24px;
+    background: #2563EB;
 }
 
-.badge-sale {
-    background: #FEE2E2;
-    color: #DC2626;
-}
-
-.price-original {
-    display: block;
-    font-size: 0.75rem;
-    color: #9CA3AF;
-    text-decoration: line-through;
-    line-height: 1.2;
-}
-
-.price-sale {
-    display: block;
-    font-size: 1.125rem;
-    font-weight: 800;
-    color: var(--sale);
-    line-height: 1.3;
-}
-
-/* CTA links — style via selector, không sửa thẻ a */
-.product-card-item a[href*="controller=buy"] {
-    background-color: var(--cta) !important;
-    color: #fff !important;
-    border: none !important;
-    box-shadow: 0 4px 14px rgba(249, 115, 22, 0.35);
-}
-
-.product-card-item a[href*="controller=buy"]:hover {
-    background-color: #EA580C !important;
-}
-
-.product-card-item a[href*="them_gio_hang"] {
-    background-color: #fff !important;
-    color: var(--primary) !important;
-    border: 1.5px solid #BFDBFE !important;
-}
-
-.product-card-item a[href*="them_gio_hang"]:hover {
-    background-color: #EFF6FF !important;
+@media (max-width: 640px) {
+    .slider-dot { width: 6px; height: 6px; }
+    .slider-dot.active { width: 20px; }
 }
 
 /* Header cart badge */
 header a[href*="shopping_cart"] #cartBadge,
 header a[href*="shopping_cart"] span[id="cartBadge"] {
-    background-color: var(--cta);
+    background-color: var(--ds-primary);
     color: #fff;
 }
 
-/* Badges utility */
+/* Status badges */
 .badge-success {
     display: inline-flex;
     align-items: center;
@@ -121,8 +85,8 @@ header a[href*="shopping_cart"] span[id="cartBadge"] {
     border-radius: 9999px;
     font-size: 0.75rem;
     font-weight: 600;
-    background-color: #D1FAE5;
-    color: #047857;
+    background-color: #DCFCE7;
+    color: #16A34A;
 }
 
 .badge-warning {
@@ -143,79 +107,58 @@ header a[href*="shopping_cart"] span[id="cartBadge"] {
 
 /* Home sidebar */
 .home-sidebar ul li a:hover {
-    background: #EFF6FF;
-    color: #2563EB;
+    background: #F1F5F9;
+    color: var(--ds-primary);
 }
 
 .home-sidebar ul li a.all-cat {
-    background: #2563EB;
+    background: var(--ds-primary);
     color: #fff;
 }
 
 .home-sidebar ul li a.all-cat:hover {
-    background: #1D4ED8;
+    background: var(--ds-primary-hover);
     color: #fff;
 }
 
 .home-sidebar-header {
-    background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+    background: var(--ds-primary);
 }
 
 .home-products-box,
 .home-sidebar {
-    border-color: #E5E7EB;
-    box-shadow: 0 2px 12px rgba(31, 41, 55, 0.05);
+    border-color: var(--ds-border);
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 }
 
 .home-products-header {
-    border-bottom-color: #E5E7EB;
-    background: linear-gradient(to right, #EFF6FF, #fff);
+    border-bottom-color: var(--ds-border);
+    background: #fff;
 }
 
 .home-products-title-label {
-    color: #2563EB;
+    color: var(--ds-primary);
 }
 
 .home-products-badge {
     background: #EFF6FF;
-    color: #2563EB;
+    color: var(--ds-primary);
     border-color: #BFDBFE;
 }
 
 .slider-dot.active {
-    background: #2563EB;
+    background: var(--ds-primary);
 }
 
 /* Banner CTA */
 .banner-cta {
-    background-color: var(--cta) !important;
-    box-shadow: 0 8px 24px rgba(249, 115, 22, 0.4);
+    background-color: var(--ds-primary);
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    transition: background-color 0.2s ease;
 }
 
 .banner-cta:hover {
-    background-color: #EA580C !important;
-}
-
-/* Product detail buy button */
-.product-detail-wrap a[href*="controller=buy"] {
-    background-color: var(--cta) !important;
-    color: #fff !important;
-    border: none !important;
-    box-shadow: 0 6px 20px rgba(249, 115, 22, 0.35);
-}
-
-.product-detail-wrap a[href*="controller=buy"]:hover {
-    background-color: #EA580C !important;
-}
-
-.product-detail-wrap a[href*="them_gio_hang"] {
-    background-color: #fff !important;
-    color: var(--primary) !important;
-    border: 2px solid #BFDBFE !important;
-}
-
-.product-detail-price {
-    color: var(--sale);
+    background-color: var(--ds-primary-hover);
 }
 
 @keyframes marquee {

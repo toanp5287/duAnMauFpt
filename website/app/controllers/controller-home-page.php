@@ -30,13 +30,17 @@ class San_pham
         require __DIR__ . "/../views/home_page.php";
     }
     public  function search()
-
     {
-        $name = $_GET['name'] ?? '';
-        $id_loai_hang = $_GET['loai_san_pham'] ?? '';
+        $name = trim((string) ($_GET['name'] ?? ''));
+        $id_loai_hang = trim((string) ($_GET['loai_san_pham'] ?? ''));
+        if ($id_loai_hang !== '' && !ctype_digit($id_loai_hang)) {
+            $id_loai_hang = '';
+        }
+
         $productsList = $this->modelSanPham->model_search($name, $id_loai_hang);
-        // load category
         $categories = $this->modelSp->dataLoaiHang();
+        $isSearch = true;
+        $searchKeyword = $name;
 
         $idLoaiHang = $_GET['id'] ?? '';
         if ($idLoaiHang !== '') {
