@@ -12,7 +12,7 @@
             </button>
 
             <img id="imgs"
-                src="/web-ban-hang/admin/public/uploads/<?php echo $list_san_pham['hinh_anh']; ?>"
+                src="/web-ban-hang/public/uploads/<?php echo $list_san_pham['hinh_anh']; ?>"
                 alt="<?php echo htmlspecialchars($list_san_pham['ten_san_pham']); ?>"
                 class="w-full h-full object-contain p-6 sm:p-10 transition-transform duration-300 group-hover:scale-105" />
 

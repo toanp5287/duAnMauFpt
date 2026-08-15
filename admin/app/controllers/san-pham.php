@@ -294,7 +294,7 @@ class San_pham
 
             $hinhanh = '';
 
-            $upload_dir = __DIR__ . '/../../public/uploads/';
+            $upload_dir = __DIR__ . '/../../../public/uploads/';
             [$uploadOk, $uploadError, $storedName] = upload_store_image(
                 $_FILES,
                 ['hinh_anh', 'hinh anh'],
@@ -372,7 +372,7 @@ class San_pham
 
         if ($product && !empty($product['hinh_anh'])) {
 
-            @unlink(__DIR__ . '/../../public/uploads/' . $product['hinh_anh']);
+            @unlink(__DIR__ . '/../../../public/uploads/' . $product['hinh_anh']);
 
         }
 
@@ -459,7 +459,7 @@ class San_pham
             $hinhanh = $sanPham['hinh_anh'];
 
             if (upload_resolve_file($_FILES, ['hinh_anh', 'hinh anh']) !== null) {
-                $upload_dir = __DIR__ . '/../../public/uploads/';
+                $upload_dir = __DIR__ . '/../../../public/uploads/';
                 [$uploadOk, $uploadError, $storedName] = upload_store_image(
                     $_FILES,
                     ['hinh_anh', 'hinh anh'],
