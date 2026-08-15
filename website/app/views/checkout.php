@@ -110,7 +110,7 @@
                             ?>
                                     <div class="flex gap-3 sm:gap-4 items-center pb-4 border-b border-slate-100 last:border-0 last:pb-0">
                                         <div class="w-14 h-14 sm:w-16 sm:h-16 shrink-0 rounded-xl bg-slate-50 border border-slate-200 overflow-hidden flex items-center justify-center p-1">
-                                            <img src="/web-ban-hang/admin/public/uploads/<?php echo $item['hinh_anh']; ?>" alt="<?php echo htmlspecialchars($item['ten_san_pham']); ?>" class="w-full h-full object-contain" />
+                                            <img src="/web-ban-hang/public/uploads/<?php echo $item['hinh_anh']; ?>" alt="<?php echo htmlspecialchars($item['ten_san_pham']); ?>" class="w-full h-full object-contain" />
                                         </div>
                                         <div class="flex-1 min-w-0">
                                             <div class="font-medium text-sm text-slate-900 truncate"><?php echo $item['ten_san_pham']; ?></div>
