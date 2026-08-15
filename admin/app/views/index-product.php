@@ -161,7 +161,7 @@
                                     <td>
 
                                         <img
-                                            src="../public/uploads/<?= htmlspecialchars($row['hinh_anh']); ?>"
+                                            src="/web-ban-hang/public/uploads/<?= htmlspecialchars($row['hinh_anh']); ?>"
                                             width="80"
                                             alt="<?= htmlspecialchars($row['ten_san_pham']); ?>"
                                             class="rounded-lg border border-slate-200 object-cover max-w-[80px]">
@@ -444,7 +444,7 @@
             const image = document.getElementById('detailImage');
 
             image.src =
-                '../public/uploads/' + (product.hinh_anh ?? '');
+                '/web-ban-hang/public/uploads/' + (product.hinh_anh ?? '');
 
             image.alt =
                 product.ten_san_pham ?? 'Sản phẩm';

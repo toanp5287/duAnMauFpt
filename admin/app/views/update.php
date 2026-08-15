@@ -69,7 +69,7 @@
                     </div>
                     <div class="text-center py-2">
                         <p class="mb-3 text-sm font-medium text-slate-700">Ảnh hiện tại</p>
-                        <img src="./uploads/<?php echo $san_pham_update['hinh_anh']; ?>" alt="" class="mx-auto h-48 sm:h-64 w-full max-w-[300px] rounded-xl border border-slate-200 object-cover">
+                        <img src="/web-ban-hang/public/uploads/<?php echo $san_pham_update['hinh_anh']; ?>" alt="" class="mx-auto h-48 sm:h-64 w-full max-w-[300px] rounded-xl border border-slate-200 object-cover">
                     </div>
                     <div>
                         <label for="hinh_anh" class="adm-label">Hình ảnh mới</label>

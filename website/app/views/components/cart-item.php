@@ -40,7 +40,7 @@ $hetHang = $soLuongTon <= 0;
 
         <!-- ẢNH -->
         <img
-            src="/web-ban-hang/admin/public/uploads/<?php echo htmlspecialchars($item['hinh_anh'] ?? ''); ?>"
+            src="/web-ban-hang/public/uploads/<?php echo htmlspecialchars($item['hinh_anh'] ?? ''); ?>"
             alt="<?php echo htmlspecialchars($item['ten_san_pham'] ?? 'Sản phẩm'); ?>"
             class="w-full sm:w-28 h-28 object-contain rounded-xl bg-slate-50 shrink-0 border border-slate-200 p-2 <?= $hetHang ? 'grayscale' : '' ?>" />
 

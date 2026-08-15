@@ -151,7 +151,7 @@
     const next = document.getElementById('next');
     if (img && prv && next) {
         const arr = [
-            '/web-ban-hang/admin/uploads/<?php echo $list_san_pham["hinh_anh"] ?? ""; ?>',
+            '/web-ban-hang/public/uploads/<?php echo $list_san_pham["hinh_anh"] ?? ""; ?>',
             '/web-ban-hang/website/app/views/imgs/banner1.png',
             '/web-ban-hang/website/app/views/imgs/image.png',
             '/web-ban-hang/website/app/views/imgs/banner2.png'
