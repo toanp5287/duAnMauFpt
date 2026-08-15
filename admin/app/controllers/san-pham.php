@@ -23,7 +23,6 @@ class San_pham
         $this->modelSanPham = new Data_san_pham();
 
         $this->modelLoaiHang = new ModelLoaihang();
-
     }
 
 
@@ -33,7 +32,6 @@ class San_pham
     {
 
         return (new Database())->getConnection();
-
     }
 
 
@@ -61,17 +59,14 @@ class San_pham
             $rules['id'] = 'required|integer|min_value:1|exists:san_pham,id';
 
             $rules['loai_hang_id'] = 'required|integer|exists:loai_hang,id';
-
         } else {
 
             $rules['loai_hang'] = 'required|integer|exists:loai_hang,id';
-
         }
 
 
 
         return $rules;
-
     }
 
 
@@ -125,7 +120,6 @@ class San_pham
             'id.exists'             => 'Sản phẩm không tồn tại.',
 
         ];
-
     }
 
 
@@ -139,7 +133,6 @@ class San_pham
         if (!$pdo instanceof PDO) {
 
             return null;
-
         }
 
 
@@ -153,13 +146,10 @@ class San_pham
 
 
             return (int) $stmt->fetchColumn();
-
         } catch (Throwable $e) {
 
             return null;
-
         }
-
     }
 
 
@@ -187,15 +177,12 @@ class San_pham
             if ($count !== null && $count > 0) {
 
                 return true;
-
             }
-
         }
 
 
 
         return false;
-
     }
 
 
@@ -221,13 +208,11 @@ class San_pham
         if ($validator->fails()) {
 
             return null;
-
         }
 
 
 
         return (int) $id;
-
     }
 
 
@@ -241,7 +226,6 @@ class San_pham
         $product = $this->modelSanPham->ModelSanPham();
 
         require __DIR__ . '/../views/index-product.php';
-
     }
 
 
@@ -277,7 +261,6 @@ class San_pham
                 require __DIR__ . '/../views/create.php';
 
                 return;
-
             }
 
 
@@ -294,7 +277,9 @@ class San_pham
 
             $hinhanh = '';
 
-            $upload_dir = __DIR__ . '/../../public/uploads/';
+            $upload_dir = __DIR__ . '/../../../public/uploads/';
+
+
             [$uploadOk, $uploadError, $storedName] = upload_store_image(
                 $_FILES,
                 ['hinh_anh', 'hinh anh'],
@@ -323,13 +308,11 @@ class San_pham
             header("Location: index.php?controller=san_pham&action=index");
 
             exit();
-
         }
 
 
 
         require __DIR__ . '/../views/create.php';
-
     }
 
 
@@ -351,7 +334,6 @@ class San_pham
             header("Location: index.php?controller=san_pham&action=index");
 
             exit();
-
         }
 
 
@@ -363,7 +345,6 @@ class San_pham
             header("Location: index.php?controller=san_pham&action=index");
 
             exit();
-
         }
 
 
@@ -372,8 +353,7 @@ class San_pham
 
         if ($product && !empty($product['hinh_anh'])) {
 
-            @unlink(__DIR__ . '/../../public/uploads/' . $product['hinh_anh']);
-
+            @unlink(__DIR__ . '/../../../public/uploads/' . $product['hinh_anh']);
         }
 
 
@@ -385,7 +365,6 @@ class San_pham
         header("Location: index.php?controller=san_pham&action=index");
 
         exit();
-
     }
 
 
@@ -423,7 +402,6 @@ class San_pham
                 require __DIR__ . '/../views/update.php';
 
                 return;
-
             }
 
 
@@ -451,7 +429,6 @@ class San_pham
                 header("Location: index.php?controller=san_pham&action=index");
 
                 exit();
-
             }
 
 
@@ -459,7 +436,7 @@ class San_pham
             $hinhanh = $sanPham['hinh_anh'];
 
             if (upload_resolve_file($_FILES, ['hinh_anh', 'hinh anh']) !== null) {
-                $upload_dir = __DIR__ . '/../../public/uploads/';
+                $upload_dir = __DIR__ . '/../../../public/uploads/';
                 [$uploadOk, $uploadError, $storedName] = upload_store_image(
                     $_FILES,
                     ['hinh_anh', 'hinh anh'],
@@ -492,7 +469,6 @@ class San_pham
             header("Location: index.php?controller=san_pham&action=index");
 
             exit();
-
         }
 
 
@@ -506,7 +482,6 @@ class San_pham
             header("Location: index.php?controller=san_pham&action=index");
 
             exit();
-
         }
 
 
@@ -518,9 +493,5 @@ class San_pham
         $errors = form_get_errors();
 
         require __DIR__ . '/../views/update.php';
-
     }
-
 }
-
-
