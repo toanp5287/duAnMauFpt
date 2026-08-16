@@ -18,7 +18,7 @@ class ModelReview
     u.name
 FROM danh_gia dg
 LEFT JOIN san_pham sp ON dg.san_pham_id = sp.id
-LEFT JOIN users u ON dg.user_id = u.id WHERE sp.id = :id";
+LEFT JOIN users u ON dg.user_id = u.id WHERE sp.id = :id AND trang_thai_duyet=1";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();

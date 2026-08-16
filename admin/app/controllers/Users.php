@@ -76,7 +76,36 @@ class ControllerUsers
         }
 
         // Xóa thất bại
-        header("Location: index.php?controller=users&action=index&error=xoa_mem");
+        header("Location: index.php?controller=user&action=index&error=xoa_mem");
         exit;
+    }
+    public function getAllDanhGia()
+    {
+        $model = new Model_user();
+        $modelSanPham = new Data_san_pham();
+        $listDanhGia = $model->modelgetAllDanhGia();
+        // echo "<pre>";
+        // print_r($listDanhGia);
+        // echo "</pre>";
+        // die();
+        $listProductDelete = $modelSanPham->getAllDelete();
+        $userXoaMen = $model->modelGetAllXoaMem();
+        require_once __DIR__ . '/../views/danh_gia.php';
+    }
+    public function duyet()
+    {
+        $idDuyet = $_GET['id'] ?? 0;
+        $model = new Model_user();
+        $model->modelDuyet($idDuyet);
+        header("Location: index.php?controller=user&action=getAllDanhGia");
+        exit();
+    }
+    public function an()
+    {
+        $idAn = $_GET['id'] ?? 0;
+        $model = new Model_user();
+        $model->modelAn($idAn);
+        header("Location: index.php?controller=user&action=getAllDanhGia");
+        exit();
     }
 }

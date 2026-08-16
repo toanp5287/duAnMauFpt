@@ -39,6 +39,7 @@ $specItems = $specItems ?? [
         'title' => 'Thương hiệu',
         'value' => 'Tech Store',
     ],
+
 ];
 
 if (!function_exists('dsSpecIcon')) {

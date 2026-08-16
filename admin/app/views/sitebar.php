@@ -15,12 +15,50 @@ if (!function_exists('admNavClass')) {
 }
 
 $navItems = [
-    ['href' => 'index.php?controller=san_pham&action=index', 'label' => 'Danh sách sản phẩm', 'icon' => 'product', 'controllers' => ['san_pham']],
-    ['href' => 'index.php?controller=loai_hang&action=index', 'label' => 'Danh mục loại hàng', 'icon' => 'category', 'controllers' => ['loai_hang']],
-    ['href' => 'index.php?controller=khach_hang&action=index', 'label' => 'Đơn hàng', 'icon' => 'order', 'controllers' => ['khach_hang']],
-    ['href' => 'index.php?controller=user&action=index', 'label' => 'Users', 'icon' => 'detail', 'controllers' => ['order_detail'], 'actions' => ['index', 'search']],
-    ['href' => 'index.php?controller=order_detail&action=thongKe', 'label' => 'Thống kê doanh thu', 'icon' => 'stats', 'controllers' => ['order_detail'], 'actions' => ['thongKe']],
+    [
+        'href' => 'index.php?controller=san_pham&action=index',
+        'label' => 'Danh sách sản phẩm',
+        'icon' => 'product',
+        'controllers' => ['san_pham']
+    ],
 
+    [
+        'href' => 'index.php?controller=loai_hang&action=index',
+        'label' => 'Danh mục loại hàng',
+        'icon' => 'category',
+        'controllers' => ['loai_hang']
+    ],
+
+    [
+        'href' => 'index.php?controller=khach_hang&action=index',
+        'label' => 'Đơn hàng',
+        'icon' => 'order',
+        'controllers' => ['khach_hang']
+    ],
+
+    [
+        'href' => 'index.php?controller=user&action=index',
+        'label' => 'Users',
+        'icon' => 'detail',
+        'controllers' => ['user'],
+        'actions' => ['index', 'search']
+    ],
+
+    [
+        'href' => 'index.php?controller=order_detail&action=thongKe',
+        'label' => 'Thống kê doanh thu',
+        'icon' => 'stats',
+        'controllers' => ['order_detail'],
+        'actions' => ['thongKe']
+    ],
+
+    [
+        'href' => 'index.php?controller=user&action=getAllDanhGia',
+        'label' => 'Quản lý đánh giá',
+        'icon' => 'star',
+        'controllers' => ['danh_gia'],
+        'actions' => ['index']
+    ],
 ];
 ?>
 

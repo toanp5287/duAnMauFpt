@@ -78,4 +78,38 @@ class Model_user
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function modelgetAllDanhGia()
+    {
+        $sql = "SELECT 
+                danh_gia.*,
+                san_pham.ten_san_pham,
+                users.name AS ten_khach_hang
+            FROM danh_gia
+            JOIN san_pham 
+                ON danh_gia.san_pham_id = san_pham.id
+            JOIN users 
+                ON danh_gia.user_id = users.id
+            ORDER BY danh_gia.created_at DESC";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function modelDuyet($id)
+    {
+        $sql = "UPDATE danh_gia SET trang_thai_duyet=1 WHERE id=:id";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([
+            ":id" => $id
+        ]);
+    }
+    public function modelAn($id)
+    {
+        $sql = "UPDATE danh_gia SET trang_thai_duyet=0 WHERE id=:id";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([
+            ":id" => $id
+        ]);
+    }
 }
