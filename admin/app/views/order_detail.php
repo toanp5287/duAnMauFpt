@@ -26,14 +26,7 @@
                     </p>
                 </div>
 
-                <form action="index.php" method="GET" class="flex flex-col sm:flex-row gap-2 w-full lg:w-auto">
-                    <input type="hidden" name="controller" value="order_detail">
-                    <input type="hidden" name="action" value="search">
-                    <input type="search" name="keyword" placeholder="Tìm khách hàng hoặc sản phẩm..."
-                        value="<?php echo $_GET['keyword'] ?? ''; ?>"
-                        class="adm-input h-10 px-4 text-sm w-full sm:min-w-[240px]">
-                    <button type="submit" class="adm-btn-success h-10 px-5 whitespace-nowrap">Tìm</button>
-                </form>
+
             </div>
 
             <div class="adm-card overflow-hidden">

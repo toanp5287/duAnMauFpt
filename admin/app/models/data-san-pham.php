@@ -12,7 +12,7 @@ class Data_san_pham
 
     public function ModelSanPham()
     {
-        $sql = "SELECT san_pham.*,loai_hang.ten_loai FROM " . $this->table . " JOIN loai_hang ON san_pham.loai_hang_id = loai_hang.id";
+        $sql = "SELECT san_pham.*,loai_hang.ten_loai FROM " . $this->table . " JOIN loai_hang ON san_pham.loai_hang_id = loai_hang.id WHERE san_pham.da_xoa = 0";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
@@ -89,5 +89,76 @@ class Data_san_pham
             'id' => $id
         ]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    public function modelSoftDelete($idSanPham)
+    {
+        $sql = "UPDATE san_pham 
+            SET da_xoa = 1 
+            WHERE id = :idSanPham";
+
+        $stmt = $this->conn->prepare($sql);
+
+        return $stmt->execute([
+            ':idSanPham' => $idSanPham
+        ]);
+    }
+    public function getAllDelete()
+    {
+        $sql = "SELECT 
+                san_pham.id,
+                san_pham.ten_san_pham,
+                san_pham.so_luong,
+                san_pham.gia,
+                san_pham.loai_hang_id,
+                san_pham.hinh_anh,
+                loai_hang.ten_loai
+            FROM san_pham
+            JOIN loai_hang 
+                ON san_pham.loai_hang_id = loai_hang.id
+            WHERE san_pham.da_xoa = 1";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    // Khôi phục sản phẩm
+    public function restoreProduct($idSanPham)
+    {
+        $sql = "UPDATE san_pham 
+            SET da_xoa = 0 
+            WHERE id = :idSanPham";
+
+        $stmt = $this->conn->prepare($sql);
+
+        return $stmt->execute([
+            ':idSanPham' => $idSanPham
+        ]);
+    }
+    public function deleteAllForever() // xoa tất cả sản phẩm
+    {
+        $sql = "DELETE FROM san_pham WHERE da_xoa = 1";
+
+        $stmt = $this->conn->prepare($sql);
+
+        return $stmt->execute();
+    }
+    public function modelShearch($sheach)
+    {
+        $sql = "SELECT 
+                san_pham.*,
+                loai_hang.ten_loai AS ten_loai
+            FROM san_pham
+            JOIN loai_hang 
+                ON san_pham.loai_hang_id = loai_hang.id
+            WHERE san_pham.ten_san_pham LIKE :sheach
+               OR loai_hang.ten_loai LIKE :sheach";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->execute([
+            ':sheach' => '%' . $sheach . '%'
+        ]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

@@ -15,7 +15,6 @@ class Loai_hang
     {
 
         $this->modelLoaiHang = new ModelLoaihang();
-
     }
 
 
@@ -25,7 +24,6 @@ class Loai_hang
     {
 
         return (new Database())->getConnection();
-
     }
 
 
@@ -53,7 +51,6 @@ class Loai_hang
             'id.exists'         => 'Danh mục không tồn tại.',
 
         ];
-
     }
 
 
@@ -67,7 +64,6 @@ class Loai_hang
         if (!$pdo instanceof PDO) {
 
             return null;
-
         }
 
 
@@ -81,13 +77,10 @@ class Loai_hang
 
 
             return (int) $stmt->fetchColumn();
-
         } catch (Throwable $e) {
 
             return null;
-
         }
-
     }
 
 
@@ -107,7 +100,6 @@ class Loai_hang
 
 
         return $count === null ? false : $count > 0;
-
     }
 
 
@@ -133,13 +125,11 @@ class Loai_hang
         if ($validator->fails()) {
 
             return null;
-
         }
 
 
 
         return (int) $id;
-
     }
 
 
@@ -149,9 +139,10 @@ class Loai_hang
     {
 
         $loai_hang = $this->modelLoaiHang->loaiHang();
+        $modelSanPham = new Data_san_pham();
+        $listProductDelete = $modelSanPham->getAllDelete();
 
         require __DIR__ . '/../views/list-loai-hang.php';
-
     }
 
 
@@ -185,7 +176,6 @@ class Loai_hang
                 require __DIR__ . '/../views/create-loai-hang.php';
 
                 return;
-
             }
 
 
@@ -199,13 +189,12 @@ class Loai_hang
             header("Location: index.php?controller=loai_hang&action=index");
 
             exit();
-
         }
 
-
+        $modelSanPham = new Data_san_pham();
+        $listProductDelete = $modelSanPham->getAllDelete();
 
         require __DIR__ . '/../views/create-loai-hang.php';
-
     }
 
 
@@ -223,7 +212,6 @@ class Loai_hang
             header("Location: index.php?controller=loai_hang&action=index");
 
             exit();
-
         }
 
 
@@ -235,7 +223,6 @@ class Loai_hang
             header("Location: index.php?controller=loai_hang&action=index");
 
             exit();
-
         }
 
 
@@ -247,7 +234,6 @@ class Loai_hang
         header("Location: index.php?controller=loai_hang&action=index");
 
         exit();
-
     }
 
 
@@ -283,11 +269,11 @@ class Loai_hang
                 $errors = form_get_errors();
 
                 $list_loai = $this->modelLoaiHang->find($categoryId) ?: [];
-
+                $modelSanPham = new Data_san_pham();
+                $listProductDelete = $modelSanPham->getAllDelete();
                 require __DIR__ . '/../views/update-loai-hang.php';
 
                 return;
-
             }
 
 
@@ -303,10 +289,10 @@ class Loai_hang
             header("Location: index.php?controller=loai_hang&action=index");
 
             exit();
-
         }
 
-
+        $modelSanPham = new Data_san_pham();
+        $listProductDelete = $modelSanPham->getAllDelete();
 
         $categoryId = $this->validateCategoryId($_GET['id'] ?? '');
 
@@ -317,7 +303,6 @@ class Loai_hang
             header("Location: index.php?controller=loai_hang&action=index");
 
             exit();
-
         }
 
 
@@ -327,9 +312,5 @@ class Loai_hang
         $errors = form_get_errors();
 
         require __DIR__ . '/../views/update-loai-hang.php';
-
     }
-
 }
-
-

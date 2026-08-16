@@ -19,39 +19,82 @@ class Model_khach_hang
     // {
     //     $this->conn = mysqli_connect("localhost", "root", "", "ban_hang");
     // }
-    public function data_khach_hang($id)
+    public function data_khach_hang($id = null, $page = 1, $limit = 10)
     {
-        if (empty($id)) {
-            $sql = "SELECT 
-                    orders.*, 
+        // =====================================================
+        // XEM CHI TIẾT 1 ĐƠN HÀNG
+        // =====================================================
+        if (!empty($id)) {
+
+            $sql = "SELECT
+                    orders.*,
                     orders.id AS donHangId,
                     orders.trang_thai_id,
                     orders.payment_status,
                     users.name AS name
-                FROM " . $this->table . " 
-                JOIN users ON orders.user_id = users.id";
-
-            $stmt = $this->conn->prepare($sql);
-            $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } else {
-            $sql = "SELECT 
-                    orders.*, 
-                    orders.id AS donHangId,
-                    orders.trang_thai_id,
-                   orders.payment_status,
-                    users.name AS name
-                FROM " . $this->table . " 
-                JOIN users ON orders.user_id = users.id 
+                FROM " . $this->table . " AS orders
+                JOIN users 
+                    ON orders.user_id = users.id
                 WHERE orders.id = :id";
 
             $stmt = $this->conn->prepare($sql);
+
             $stmt->execute([
                 ':id' => $id
             ]);
 
             return $stmt->fetch(PDO::FETCH_ASSOC);
         }
+
+
+        // =====================================================
+        // DANH SÁCH ĐƠN HÀNG - CÓ PHÂN TRANG
+        // =====================================================
+
+        // Đảm bảo page hợp lệ
+        $page = max(1, (int)$page);
+
+        // Số đơn hàng mỗi trang
+        $limit = max(1, (int)$limit);
+
+        // Tính vị trí bắt đầu
+        $offset = ($page - 1) * $limit;
+
+
+        // =====================================================
+        // LẤY DANH SÁCH
+        // =====================================================
+
+        $sql = "SELECT
+                orders.*,
+                orders.id AS donHangId,
+                orders.trang_thai_id,
+                orders.payment_status,
+                users.name AS name
+            FROM " . $this->table . " AS orders
+            JOIN users
+                ON orders.user_id = users.id
+            ORDER BY orders.id DESC
+            LIMIT :limit OFFSET :offset";
+
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue(
+            ':limit',
+            $limit,
+            PDO::PARAM_INT
+        );
+
+        $stmt->bindValue(
+            ':offset',
+            $offset,
+            PDO::PARAM_INT
+        );
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     // public function model_delete($id)
     // {
@@ -96,5 +139,15 @@ class Model_khach_hang
         $stmt->execute();
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    public function count_khach_hang()
+    {
+        $sql = "SELECT COUNT(*) 
+            FROM " . $this->table;
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+
+        return (int)$stmt->fetchColumn();
     }
 }

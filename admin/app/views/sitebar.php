@@ -81,14 +81,70 @@ $navItems = [
         <?php } ?>
     </nav>
 
+    <!-- Thùng rác -->
+    <!-- Thùng rác -->
     <div class="p-3 border-t border-slate-200">
-        <a href="index.php?controller=auth&action=logout" onclick="return confirm('Bạn muốn đăng xuất?')" class="adm-nav-link text-red-600 hover:text-red-700 hover:bg-red-50">
-            <svg class="w-5 h-5 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+
+        <button
+            type="button"
+            id="openTrashBtn"
+
+            class="adm-nav-link w-full text-red-600 hover:text-red-700 hover:bg-red-50">
+
+            <svg
+                class="w-5 h-5 shrink-0"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.8"
+                stroke="currentColor">
+
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M3 6h18M8 6V4a1 1 0 011-1h6a1 1 0 011 1v2m2 0v14a1 1 0 01-1 1H7a1 1 0 01-1-1V6h12z" />
+
             </svg>
+
+            <span>Thùng rác</span>
+            <span
+                class="ml-auto min-w-6 h-6 px-2
+           flex items-center justify-center
+           rounded-full text-xs font-bold
+           <?= !empty($listProductDelete)
+                ? 'bg-red-100 text-red-600'
+                : 'bg-slate-100 text-slate-400' ?>">
+
+                <?= count($listProductDelete) ?>
+
+            </span>
+        </button>
+    </div>
+
+    <!-- Đăng xuất -->
+    <div class="p-3 border-t border-slate-200">
+        <a href="index.php?controller=auth&action=logout"
+            onclick="return confirm('Bạn muốn đăng xuất?')"
+            class="adm-nav-link text-red-600 hover:text-red-700 hover:bg-red-50">
+
+            <svg class="w-5 h-5 shrink-0"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.8"
+                stroke="currentColor"
+                aria-hidden="true">
+
+                <path stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+
             Đăng xuất
         </a>
     </div>
+
+
 </aside>
 
 <!-- Mobile drawer -->
@@ -115,42 +171,1467 @@ $navItems = [
     </div>
 </div>
 
+<!-- =========================================================
+     THÙNG RÁC - DRAWER
+========================================================= -->
+
+<div
+    id="trashDrawer"
+    class="fixed inset-0 z-[100] hidden">
+
+    <!-- OVERLAY -->
+    <div
+        id="trashOverlay"
+        class="absolute inset-0 bg-slate-900/50 backdrop-blur-sm">
+    </div>
+
+
+    <!-- PANEL -->
+    <div
+        id="trashPanel"
+        class="absolute right-0 top-0 h-full
+               w-[70%]
+               max-lg:w-[85%]
+               max-md:w-full
+               bg-white shadow-2xl
+               translate-x-full
+               transition-transform duration-300
+               flex flex-col">
+
+
+        <!-- =====================================================
+             HEADER
+        ====================================================== -->
+
+        <div
+            class="px-6 py-5
+                   border-b border-slate-200
+                   flex items-center justify-between
+                   shrink-0">
+
+            <div class="flex items-center gap-3">
+
+                <div
+                    class="w-11 h-11 rounded-xl
+                           bg-red-50 text-red-600
+                           flex items-center justify-center">
+
+                    <svg
+                        class="w-6 h-6"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.8"
+                        stroke="currentColor">
+
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M3 6h18M8 6V4a1 1 0 011-1h6a1 1 0 011 1v2m2 0v14a1 1 0 01-1 1H7a1 1 0 01-1-1V6h12z" />
+
+                    </svg>
+
+                </div>
+
+
+                <div>
+
+                    <h2 class="text-xl font-bold text-slate-800">
+                        Thùng rác
+                    </h2>
+
+                    <p class="text-sm text-slate-500">
+                        Quản lý dữ liệu đã bị xóa
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- CLOSE -->
+
+            <button
+                type="button"
+                id="closeTrashBtn"
+                class="w-10 h-10 rounded-xl
+                       flex items-center justify-center
+                       text-slate-500
+                       hover:text-slate-800
+                       hover:bg-slate-100
+                       transition">
+
+                <svg
+                    class="w-6 h-6"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor">
+
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M6 18L18 6M6 6l12 12" />
+
+                </svg>
+
+            </button>
+
+        </div>
+
+
+        <!-- =====================================================
+             TABS
+        ====================================================== -->
+
+        <div
+            class="px-6 pt-4
+                   border-b border-slate-200
+                   bg-white">
+
+            <div class="flex gap-2 overflow-x-auto">
+
+
+                <!-- TAB SẢN PHẨM -->
+
+                <button
+                    type="button"
+                    onclick="switchTrashTab('products')"
+                    id="trashTabProducts"
+                    class="trash-tab active">
+
+                    <svg
+                        class="w-4 h-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor">
+
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="1.8"
+                            d="M3.75 7.5h16.5M6 3.75h12A1.5 1.5 0 0119.5 5.25v13.5A1.5 1.5 0 0118 20.25H6a1.5 1.5 0 01-1.5-1.5V5.25A1.5 1.5 0 016 3.75z" />
+
+                    </svg>
+
+                    Sản phẩm
+
+                    <span
+                        class="ml-1 px-2 py-0.5
+                               rounded-full
+                               bg-red-50 text-red-600
+                               text-[11px] font-bold">
+
+                        <?= count($listProductDelete) ?>
+
+                    </span>
+
+                </button>
+
+
+                <!-- TAB TÀI KHOẢN -->
+
+                <!-- TAB TÀI KHOẢN -->
+                <button
+                    type="button"
+                    onclick="switchTrashTab('users')"
+                    id="trashTabUsers"
+                    class="trash-tab">
+
+                    <svg
+                        class="w-4 h-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor">
+
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="1.8"
+                            d="M15.75 6.75a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a7.5 7.5 0 0115 0" />
+
+                    </svg>
+
+                    Tài khoản
+
+                    <span
+                        class="ml-1 px-2 py-0.5
+               rounded-full
+               bg-red-50 text-red-600
+               text-[11px] font-bold">
+
+                        <?= count($userXoaMen ?? []) ?>
+
+                    </span>
+
+                </button>
+
+
+                <!-- TAB LOẠI HÀNG -->
+
+                <!-- <button
+                    type="button"
+                    onclick="switchTrashTab('categories')"
+                    id="trashTabCategories"
+                    class="trash-tab">
+
+                    <svg
+                        class="w-4 h-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor">
+
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="1.8"
+                            d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" />
+
+                    </svg>
+
+                    Loại hàng
+
+                    <span
+                        class="ml-1 px-2 py-0.5
+                               rounded-full
+                               bg-slate-100 text-slate-500
+                               text-[11px] font-bold">
+
+                        0
+
+                    </span>
+
+                </button> -->
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             TOOLBAR
+        ====================================================== -->
+
+        <!-- =====================================================
+     TOOLBAR
+====================================================== -->
+
+        <div
+            class="px-6 py-4
+           bg-slate-50
+           border-b border-slate-200
+           flex items-center justify-between
+           gap-4">
+
+            <div>
+
+                <span
+                    id="trashCount"
+                    class="font-bold text-slate-800">
+
+                    <?= count($listProductDelete) ?>
+
+                </span>
+
+                <span
+                    id="trashCountText"
+                    class="text-sm text-slate-500">
+
+                    sản phẩm trong thùng rác
+
+                </span>
+
+            </div>
+
+
+            <!-- ================================================
+         NÚT XÓA TẤT CẢ - SẢN PHẨM
+    ================================================= -->
+
+            <button
+                type="button"
+                id="deleteAllProductTrashBtn"
+                class="px-4 py-2.5
+               rounded-xl
+               bg-red-50
+               text-red-600
+               hover:bg-red-100
+               text-sm font-semibold
+               transition">
+
+                Xóa tất cả sản phẩm
+
+            </button>
+
+
+            <!-- ================================================
+         NÚT XÓA TẤT CẢ - TÀI KHOẢN
+    ================================================= -->
+
+            <button
+                type="button"
+                id="deleteAllUserTrashBtn"
+                class="hidden
+               px-4 py-2.5
+               rounded-xl
+               bg-red-50
+               text-red-600
+               hover:bg-red-100
+               text-sm font-semibold
+               transition">
+
+                Xóa tất cả tài khoản
+
+            </button>
+
+        </div>
+
+
+        <!-- =====================================================
+             CONTENT
+        ====================================================== -->
+
+        <div
+            class="flex-1 overflow-y-auto p-6">
+
+
+            <!-- =================================================
+                 TAB 1: SẢN PHẨM
+            ================================================== -->
+
+            <div
+                id="trashProducts"
+                class="trash-content">
+
+                <div class="space-y-4">
+
+
+                    <?php if (empty($listProductDelete)): ?>
+
+                        <div
+                            class="py-20
+                                   flex flex-col
+                                   items-center
+                                   justify-center
+                                   text-center">
+
+                            <div
+                                class="w-16 h-16
+                                       rounded-2xl
+                                       bg-slate-100
+                                       flex items-center
+                                       justify-center
+                                       mb-4">
+
+                                <svg
+                                    class="w-8 h-8 text-slate-400"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor">
+
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="1.5"
+                                        d="M3 6h18M8 6V4a1 1 0 011-1h6a1 1 0 011 1v2m2 0v14a1 1 0 01-1 1H7a1 1 0 01-1-1V6h12z" />
+
+                                </svg>
+
+                            </div>
+
+                            <h3
+                                class="font-semibold text-slate-700">
+
+                                Thùng rác trống
+
+                            </h3>
+
+                            <p
+                                class="text-sm text-slate-400 mt-1">
+
+                                Không có sản phẩm nào bị xóa.
+
+                            </p>
+
+                        </div>
+
+                    <?php else: ?>
+
+
+                        <?php foreach ($listProductDelete as $item): ?>
+
+                            <div
+                                class="border border-slate-200
+                                       rounded-2xl
+                                       p-4
+                                       hover:shadow-sm
+                                       transition">
+
+                                <div class="flex gap-5">
+
+
+                                    <!-- IMAGE -->
+
+                                    <div
+                                        class="w-28 h-28
+                                               shrink-0
+                                               rounded-xl
+                                               bg-slate-100
+                                               overflow-hidden">
+
+                                        <img
+                                            src="/web-ban-hang/public/uploads/<?= htmlspecialchars($item['hinh_anh'] ?? '') ?>"
+                                            class="w-full h-full object-cover"
+                                            alt="<?= htmlspecialchars($item['ten_san_pham'] ?? '') ?>">
+
+                                    </div>
+
+
+                                    <!-- INFO -->
+
+                                    <div
+                                        class="flex-1 min-w-0">
+
+                                        <div
+                                            class="flex items-start
+                                                   justify-between
+                                                   gap-4">
+
+                                            <div>
+
+                                                <h3
+                                                    class="font-bold
+                                                           text-slate-800">
+
+                                                    <?= htmlspecialchars($item['ten_san_pham'] ?? '') ?>
+
+                                                </h3>
+
+                                                <p
+                                                    class="text-sm
+                                                           text-slate-500
+                                                           mt-1">
+
+                                                    Sản phẩm
+
+                                                </p>
+
+                                            </div>
+
+
+                                            <span
+                                                class="px-2.5 py-1
+                                                       rounded-full
+                                                       bg-red-50
+                                                       text-red-600
+                                                       text-xs
+                                                       font-semibold">
+
+                                                Đã xóa
+
+                                            </span>
+
+                                        </div>
+
+
+                                        <!-- DETAILS -->
+
+                                        <div
+                                            class="grid
+                                                   grid-cols-3
+                                                   gap-5
+                                                   mt-5">
+
+                                            <div>
+
+                                                <p
+                                                    class="text-xs
+                                                           text-slate-400">
+
+                                                    Giá
+
+                                                </p>
+
+                                                <p
+                                                    class="font-bold
+                                                           text-slate-800">
+
+                                                    <?= number_format(
+                                                        (float)($item['gia'] ?? 0),
+                                                        0,
+                                                        ',',
+                                                        '.'
+                                                    ) ?> ₫
+
+                                                </p>
+
+                                            </div>
+
+
+                                            <div>
+
+                                                <p
+                                                    class="text-xs
+                                                           text-slate-400">
+
+                                                    Số lượng
+
+                                                </p>
+
+                                                <p
+                                                    class="font-semibold
+                                                           text-slate-700">
+
+                                                    <?= (int)($item['so_luong'] ?? 0) ?>
+
+                                                </p>
+
+                                            </div>
+
+
+                                            <div>
+
+                                                <p
+                                                    class="text-xs
+                                                           text-slate-400">
+
+                                                    Mã sản phẩm
+
+                                                </p>
+
+                                                <p
+                                                    class="font-semibold
+                                                           text-slate-700">
+
+                                                    #<?= (int)$item['id'] ?>
+
+                                                </p>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- ACTION -->
+
+                                    <div
+                                        class="flex flex-col
+                                               justify-center
+                                               gap-2
+                                               min-w-[145px]">
+
+                                        <button
+                                            type="button"
+                                            onclick="restoreProduct(<?= (int)$item['id'] ?>)"
+                                            class="px-4 py-2.5
+                                                   rounded-xl
+                                                   bg-blue-50
+                                                   text-blue-600
+                                                   hover:bg-blue-100
+                                                   text-sm
+                                                   font-semibold">
+
+                                            ↩ Khôi phục
+
+                                        </button>
+
+
+                                        <button
+                                            type="button"
+                                            onclick="deleteProduct(<?= (int)$item['id'] ?>)"
+                                            class="px-4 py-2.5
+                                                   rounded-xl
+                                                   bg-red-50
+                                                   text-red-600
+                                                   hover:bg-red-100
+                                                   text-sm
+                                                   font-semibold">
+
+                                            Xóa vĩnh viễn
+
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        <?php endforeach; ?>
+
+                    <?php endif; ?>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 TAB 2: TÀI KHOẢN
+            ================================================== -->
+
+            <!-- =================================================
+     TAB 2: TÀI KHOẢN
+================================================== -->
+
+            <div
+                id="trashUsers"
+                class="trash-content hidden">
+
+                <?php if (empty($userXoaMen)): ?>
+
+                    <!-- EMPTY -->
+
+                    <div
+                        class="
+                py-20
+                flex
+                flex-col
+                items-center
+                justify-center
+                text-center
+            ">
+
+                        <div
+                            class="
+                    w-16
+                    h-16
+                    rounded-2xl
+                    bg-slate-100
+                    flex
+                    items-center
+                    justify-center
+                    mb-4
+                ">
+
+                            <svg
+                                class="w-8 h-8 text-slate-400"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor">
+
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.5"
+                                    d="M15.75 6.75a3.75 3.75 0 11-7.5 0
+                           3.75 3.75 0 01-7.5 0zM4.5 20.25
+                           a7.5 7.5 0 0115 0" />
+
+                            </svg>
+
+                        </div>
+
+                        <h3
+                            class="
+                    font-semibold
+                    text-slate-700
+                ">
+
+                            Thùng rác tài khoản trống
+
+                        </h3>
+
+                        <p
+                            class="
+                    text-sm
+                    text-slate-400
+                    mt-1
+                ">
+
+                            Không có tài khoản nào bị xóa.
+
+                        </p>
+
+                    </div>
+
+                <?php else: ?>
+
+                    <!-- USER LIST -->
+
+                    <div class="space-y-3">
+
+                        <?php foreach ($userXoaMen as $item): ?>
+
+                            <div
+                                class="
+                        border
+                        border-slate-200
+                        rounded-2xl
+                        p-4
+                        bg-white
+                        hover:shadow-sm
+                        transition
+                    ">
+
+                                <div
+                                    class="
+                            flex
+                            items-center
+                            justify-between
+                            gap-4
+                        ">
+
+                                    <!-- USER INFO -->
+
+                                    <div
+                                        class="
+                                flex
+                                items-center
+                                gap-4
+                                min-w-0
+                            ">
+
+                                        <!-- AVATAR -->
+
+                                        <div
+                                            class="
+                                    w-12
+                                    h-12
+                                    shrink-0
+                                    rounded-full
+                                    bg-slate-900
+                                    text-white
+                                    flex
+                                    items-center
+                                    justify-center
+                                    font-bold
+                                    text-lg
+                                ">
+
+                                            <?= strtoupper(
+                                                mb_substr(
+                                                    $item['name'] ?? '?',
+                                                    0,
+                                                    1
+                                                )
+                                            ) ?>
+
+                                        </div>
+
+
+                                        <!-- INFORMATION -->
+
+                                        <div class="min-w-0">
+
+                                            <div
+                                                class="
+                                        flex
+                                        items-center
+                                        gap-2
+                                    ">
+
+                                                <h3
+                                                    class="
+                                            font-bold
+                                            text-slate-800
+                                            truncate
+                                        ">
+
+                                                    <?= htmlspecialchars(
+                                                        $item['name'] ?? 'Không có tên'
+                                                    ) ?>
+
+                                                </h3>
+
+                                                <span
+                                                    class="
+                                            px-2
+                                            py-1
+                                            rounded-full
+                                            bg-red-50
+                                            text-red-600
+                                            text-[11px]
+                                            font-semibold
+                                            whitespace-nowrap
+                                        ">
+
+                                                    Đã xóa
+
+                                                </span>
+
+                                            </div>
+
+
+                                            <p
+                                                class="
+                                        text-sm
+                                        text-slate-500
+                                        truncate
+                                        mt-1
+                                    ">
+
+                                                <?= htmlspecialchars(
+                                                    $item['email'] ?? 'Không có email'
+                                                ) ?>
+
+                                            </p>
+
+
+                                            <p
+                                                class="
+                                        text-xs
+                                        text-slate-400
+                                        mt-1
+                                    ">
+
+                                                ID:
+                                                #<?= (int)$item['id'] ?>
+
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- ACTION -->
+
+                                    <div
+                                        class="
+                                flex
+                                flex-col
+                                gap-2
+                                shrink-0
+                            ">
+
+                                        <!-- KHÔI PHỤC -->
+
+                                        <a
+                                            href="
+                                    index.php?controller=user
+                                    &action=khoiPhucUser
+                                    &id=<?= (int)$item['id'] ?>
+                                "
+                                            onclick="
+                                    return confirm(
+                                        'Bạn có chắc muốn khôi phục tài khoản này?'
+                                    );
+                                "
+                                            class="
+                                    inline-flex
+                                    items-center
+                                    justify-center
+                                    px-4
+                                    py-2
+                                    rounded-xl
+                                    bg-blue-50
+                                    text-blue-600
+                                    hover:bg-blue-100
+                                    text-sm
+                                    font-semibold
+                                    transition
+                                ">
+
+                                            ↩ Khôi phục
+
+                                        </a>
+
+
+                                        <!-- XÓA VĨNH VIỄN -->
+
+                                        <a
+                                            href="
+                                    index.php?controller=user
+                                    &action=xoaCung
+                                    &id=<?= (int)$item['id'] ?>
+                                "
+                                            onclick="
+                                    return confirm(
+                                        'Bạn có chắc chắn muốn XÓA VĨNH VIỄN tài khoản này?\\n\\nHành động này không thể hoàn tác!'
+                                    );
+                                "
+                                            class="
+                                    inline-flex
+                                    items-center
+                                    justify-center
+                                    px-4
+                                    py-2
+                                    rounded-xl
+                                    bg-red-50
+                                    text-red-600
+                                    hover:bg-red-100
+                                    text-sm
+                                    font-semibold
+                                    transition
+                                ">
+
+                                            🗑 Xóa vĩnh viễn
+
+                                        </a>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        <?php endforeach; ?>
+
+                    </div>
+
+                <?php endif; ?>
+
+            </div>
+
+
+            <!-- =================================================
+                 TAB 3: LOẠI HÀNG
+            ================================================== -->
+
+            <div
+                id="trashCategories"
+                class="trash-content hidden">
+
+                <div
+                    class="py-20
+                           flex flex-col
+                           items-center
+                           justify-center
+                           text-center">
+
+                    <div
+                        class="w-16 h-16
+                               rounded-2xl
+                               bg-slate-100
+                               flex items-center
+                               justify-center
+                               mb-4">
+
+                        <svg
+                            class="w-8 h-8 text-slate-400"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor">
+
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="1.5"
+                                d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" />
+
+                        </svg>
+
+                    </div>
+
+                    <h3
+                        class="font-semibold text-slate-700">
+
+                        Loại hàng bị xóa
+
+                    </h3>
+
+                    <p
+                        class="text-sm text-slate-400 mt-1">
+
+                        Chưa có loại hàng nào trong thùng rác.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =====================================================
+             FOOTER
+        ====================================================== -->
+
+        <div
+            class="px-6 py-4
+                   border-t border-slate-200
+                   flex items-center justify-between
+                   shrink-0">
+
+            <p
+                class="text-sm text-slate-500">
+
+                Dữ liệu đã xóa có thể được khôi phục.
+
+            </p>
+
+
+            <button
+                type="button"
+                id="closeTrashBottom"
+                class="px-5 py-2.5
+                       rounded-xl
+                       border border-slate-200
+                       text-slate-700
+                       hover:bg-slate-50
+                       text-sm
+                       font-semibold">
+
+                Đóng
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     STYLE TAB
+========================================================= -->
+
+<style>
+    .trash-tab {
+
+        display: inline-flex;
+
+        align-items: center;
+
+        gap: 8px;
+
+        padding: 10px 14px;
+
+        border-radius: 10px 10px 0 0;
+
+        font-size: 14px;
+
+        font-weight: 600;
+
+        color: #64748b;
+
+        white-space: nowrap;
+
+        transition: all .2s ease;
+
+    }
+
+    .trash-tab:hover {
+
+        color: #0f172a;
+
+        background: #f8fafc;
+
+    }
+
+    .trash-tab.active {
+
+        color: #dc2626;
+
+        background: #fef2f2;
+
+    }
+</style>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
 <script>
-    (function() {
-        var drawer = document.getElementById('adminDrawer');
-        var panel = document.getElementById('adminDrawerPanel');
-        var overlay = document.getElementById('adminDrawerOverlay');
-        var openBtn = document.getElementById('adminDrawerBtn');
-        var closeBtn = document.getElementById('adminDrawerClose');
-        if (!drawer || !panel || !openBtn) return;
+    const trashDrawer =
+        document.getElementById('trashDrawer');
 
-        function openDrawer() {
-            drawer.classList.remove('hidden');
-            drawer.setAttribute('aria-hidden', 'false');
-            openBtn.setAttribute('aria-expanded', 'true');
-            document.body.classList.add('adm-drawer-open');
-            requestAnimationFrame(function() {
-                panel.classList.remove('-translate-x-full');
-            });
+    const trashPanel =
+        document.getElementById('trashPanel');
+
+    const trashOverlay =
+        document.getElementById('trashOverlay');
+
+    const openTrashBtn =
+        document.getElementById('openTrashBtn');
+
+    const closeTrashBtn =
+        document.getElementById('closeTrashBtn');
+
+    const closeTrashBottom =
+        document.getElementById('closeTrashBottom');
+
+
+    /* =========================================================
+       OPEN
+    ========================================================= */
+
+    function openTrash() {
+
+        if (!trashDrawer || !trashPanel) {
+            return;
         }
 
-        function closeDrawer() {
-            panel.classList.add('-translate-x-full');
-            drawer.setAttribute('aria-hidden', 'true');
-            openBtn.setAttribute('aria-expanded', 'false');
-            document.body.classList.remove('adm-drawer-open');
-            setTimeout(function() {
-                drawer.classList.add('hidden');
-            }, 300);
+        trashDrawer.classList.remove('hidden');
+
+        document.body.classList.add('overflow-hidden');
+
+        requestAnimationFrame(function() {
+
+            trashPanel.classList.remove(
+                'translate-x-full'
+            );
+
+        });
+
+    }
+
+
+    /* =========================================================
+       CLOSE
+    ========================================================= */
+
+    function closeTrash() {
+
+        if (!trashDrawer || !trashPanel) {
+            return;
         }
-        openBtn.addEventListener('click', openDrawer);
-        if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
-        if (overlay) overlay.addEventListener('click', closeDrawer);
-        drawer.querySelectorAll('a').forEach(function(link) {
-            link.addEventListener('click', closeDrawer);
+
+        trashPanel.classList.add(
+            'translate-x-full'
+        );
+
+        setTimeout(function() {
+
+            trashDrawer.classList.add('hidden');
+
+            document.body.classList.remove(
+                'overflow-hidden'
+            );
+
+        }, 300);
+
+    }
+
+
+    /* =========================================================
+       OPEN BUTTON
+    ========================================================= */
+
+    if (openTrashBtn) {
+
+        openTrashBtn.addEventListener(
+            'click',
+            openTrash
+        );
+
+    }
+
+
+    /* =========================================================
+       CLOSE BUTTON
+    ========================================================= */
+
+    if (closeTrashBtn) {
+
+        closeTrashBtn.addEventListener(
+            'click',
+            closeTrash
+        );
+
+    }
+
+
+    if (closeTrashBottom) {
+
+        closeTrashBottom.addEventListener(
+            'click',
+            closeTrash
+        );
+
+    }
+
+
+    /* =========================================================
+       OVERLAY
+    ========================================================= */
+
+    if (trashOverlay) {
+
+        trashOverlay.addEventListener(
+            'click',
+            closeTrash
+        );
+
+    }
+
+
+    /* =========================================================
+       ESC
+    ========================================================= */
+
+    document.addEventListener(
+        'keydown',
+        function(event) {
+
+            if (
+                event.key === 'Escape' &&
+                trashDrawer &&
+                !trashDrawer.classList.contains('hidden')
+            ) {
+
+                closeTrash();
+
+            }
+
+        }
+    );
+
+
+    /* =========================================================
+       SWITCH TAB
+    ========================================================= */
+
+    function switchTrashTab(tab) {
+
+        const contents = document.querySelectorAll('.trash-content');
+
+        contents.forEach(function(content) {
+            content.classList.add('hidden');
         });
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && !drawer.classList.contains('hidden')) closeDrawer();
+
+
+        const tabs = document.querySelectorAll('.trash-tab');
+
+        tabs.forEach(function(button) {
+            button.classList.remove('active');
         });
-    })();
+
+
+        const deleteAllProductBtn =
+            document.getElementById('deleteAllProductTrashBtn');
+
+        const deleteAllUserBtn =
+            document.getElementById('deleteAllUserTrashBtn');
+
+
+        /* =====================================================
+           TAB SẢN PHẨM
+        ===================================================== */
+
+        if (tab === 'products') {
+
+            document
+                .getElementById('trashProducts')
+                .classList.remove('hidden');
+
+            document
+                .getElementById('trashTabProducts')
+                .classList.add('active');
+
+
+            document
+                .getElementById('trashCount')
+                .textContent =
+                <?= count($listProductDelete) ?>;
+
+
+            document
+                .getElementById('trashCountText')
+                .textContent =
+                'sản phẩm trong thùng rác';
+
+
+            // Hiện nút xóa tất cả sản phẩm
+            if (deleteAllProductBtn) {
+                deleteAllProductBtn.classList.remove('hidden');
+            }
+
+
+            // Ẩn nút xóa tất cả tài khoản
+            if (deleteAllUserBtn) {
+                deleteAllUserBtn.classList.add('hidden');
+            }
+
+        }
+
+
+        /* =====================================================
+           TAB TÀI KHOẢN
+        ===================================================== */
+        else if (tab === 'users') {
+
+            document
+                .getElementById('trashUsers')
+                .classList.remove('hidden');
+
+            document
+                .getElementById('trashTabUsers')
+                .classList.add('active');
+
+
+            document
+                .getElementById('trashCount')
+                .textContent =
+                <?= count($userXoaMen ?? []) ?>;
+
+
+            document
+                .getElementById('trashCountText')
+                .textContent =
+                'tài khoản trong thùng rác';
+
+
+            // Ẩn nút xóa tất cả sản phẩm
+            if (deleteAllProductBtn) {
+                deleteAllProductBtn.classList.add('hidden');
+            }
+
+
+            // Hiện nút xóa tất cả tài khoản
+            if (deleteAllUserBtn) {
+                deleteAllUserBtn.classList.remove('hidden');
+            }
+
+        }
+
+
+        /* =====================================================
+           TAB LOẠI HÀNG
+        ===================================================== */
+        else if (tab === 'categories') {
+
+            document
+                .getElementById('trashCategories')
+                .classList.remove('hidden');
+
+            const categoryTab =
+                document.getElementById('trashTabCategories');
+
+            if (categoryTab) {
+                categoryTab.classList.add('active');
+            }
+
+
+            document
+                .getElementById('trashCount')
+                .textContent = '0';
+
+
+            document
+                .getElementById('trashCountText')
+                .textContent =
+                'loại hàng trong thùng rác';
+
+
+            // Ẩn cả hai nút
+            if (deleteAllProductBtn) {
+                deleteAllProductBtn.classList.add('hidden');
+            }
+
+            if (deleteAllUserBtn) {
+                deleteAllUserBtn.classList.add('hidden');
+            }
+
+        }
+
+    }
+
+    /* =========================================================
+       RESTORE PRODUCT
+    ========================================================= */
+
+    function restoreProduct(id) {
+
+        if (
+            !confirm(
+                'Bạn có chắc muốn khôi phục sản phẩm này?'
+            )
+        ) {
+
+            return;
+
+        }
+
+
+        window.location.href =
+            'index.php?controller=san_pham&action=controllerRestoreProduct&id=' +
+            id;
+
+    }
+
+
+    /* =========================================================
+       DELETE PRODUCT FOREVER
+    ========================================================= */
+
+    function deleteProduct(id) {
+
+        const result = confirm(
+
+            'Bạn có chắc chắn muốn XÓA VĨNH VIỄN sản phẩm này?\n\n' +
+            'Hành động này không thể hoàn tác!'
+
+        );
+
+
+        if (result) {
+
+            window.location.href =
+                'index.php?controller=san_pham&action=deleteForever&id=' +
+                id;
+
+        }
+
+    }
+    /* =========================================================
+       XÓA TẤT CẢ SẢN PHẨM TRONG THÙNG RÁC
+    ========================================================= */
+    const deleteAllProductTrashBtn =
+        document.getElementById('deleteAllProductTrashBtn');
+
+    if (deleteAllProductTrashBtn) {
+        deleteAllProductTrashBtn.addEventListener('click', function() {
+
+            const count = <?= count($listProductDelete) ?>;
+
+            if (count === 0) {
+                alert('Thùng rác sản phẩm đang trống!');
+                return;
+            }
+
+            const result = confirm(
+                'Bạn có chắc chắn muốn XÓA VĨNH VIỄN tất cả sản phẩm trong thùng rác?\n\n' +
+                'Có ' + count + ' sản phẩm sẽ bị xóa.\n\n' +
+                '⚠ Hành động này không thể hoàn tác!'
+            );
+
+            if (!result) {
+                return;
+            }
+
+            window.location.href =
+                'index.php?controller=san_pham&action=deleteAllForever';
+        });
+    }
+
+
+    /* =========================================================
+       XÓA TẤT CẢ TÀI KHOẢN TRONG THÙNG RÁC
+    ========================================================= */
+    const deleteAllUserTrashBtn =
+        document.getElementById('deleteAllUserTrashBtn');
+
+    if (deleteAllUserTrashBtn) {
+        deleteAllUserTrashBtn.addEventListener('click', function() {
+
+            const count = <?= count($userXoaMen ?? []) ?>;
+
+            if (count === 0) {
+                alert('Thùng rác tài khoản đang trống!');
+                return;
+            }
+
+            const result = confirm(
+                'Bạn có chắc chắn muốn XÓA VĨNH VIỄN tất cả tài khoản trong thùng rác?\n\n' +
+                'Có ' + count + ' tài khoản sẽ bị xóa.\n\n' +
+                '⚠ Hành động này không thể hoàn tác!'
+            );
+
+            if (!result) {
+                return;
+            }
+
+            window.location.href =
+                'index.php?controller=user&action=xoaCungTatCa';
+        });
+    }
 </script>

@@ -31,7 +31,8 @@
                     <?php if (!empty($list_san_pham)) { ?>
                         <?php include __DIR__ . '/components/product-detail.php'; ?>
                     <?php } else { ?>
-                        <?php $emptyType = 'product-not-found'; include __DIR__ . '/components/empty-state.php'; ?>
+                        <?php $emptyType = 'product-not-found';
+                        include __DIR__ . '/components/empty-state.php'; ?>
                     <?php } ?>
                 </div>
             </div>
@@ -52,7 +53,8 @@
                     <div class="lg:col-span-2">
                         <?php $reviews = $reviews ?? []; ?>
                         <?php if (empty($reviews)): ?>
-                            <?php $emptyType = 'reviews'; include __DIR__ . '/components/empty-state.php'; ?>
+                            <?php $emptyType = 'reviews';
+                            include __DIR__ . '/components/empty-state.php'; ?>
                         <?php else: ?>
                             <div class="grid sm:grid-cols-2 gap-4">
                                 <?php foreach ($reviews as $rv): ?>
@@ -99,21 +101,25 @@
                                 <div>
                                     <label for="so_sao" class="ds-label">Đánh giá sao</label>
                                     <?php $soSaoOld = form_old_raw('so_sao', '5'); ?>
-                                    <select id="so_sao" name="so_sao" class="<?= form_input_class($errors ?? [], 'so_sao', 'ds-input h-10 px-3 text-sm cursor-pointer') ?>"<?= form_field_attrs($errors ?? [], 'so_sao', 'so_sao') ?>>
+                                    <select id="so_sao" name="so_sao" class="<?= form_input_class($errors ?? [], 'so_sao', 'ds-input h-10 px-3 text-sm cursor-pointer') ?>" <?= form_field_attrs($errors ?? [], 'so_sao', 'so_sao') ?>>
                                         <option value="5" <?= (string)$soSaoOld === '5' ? 'selected' : '' ?>>5 Sao ⭐⭐⭐⭐⭐</option>
                                         <option value="4" <?= (string)$soSaoOld === '4' ? 'selected' : '' ?>>4 Sao ⭐⭐⭐⭐</option>
                                         <option value="3" <?= (string)$soSaoOld === '3' ? 'selected' : '' ?>>3 Sao ⭐⭐⭐</option>
                                         <option value="2" <?= (string)$soSaoOld === '2' ? 'selected' : '' ?>>2 Sao ⭐⭐</option>
                                         <option value="1" <?= (string)$soSaoOld === '1' ? 'selected' : '' ?>>1 Sao ⭐</option>
                                     </select>
-                                    <?php $field = 'so_sao'; $inputId = 'so_sao'; include __DIR__ . '/components/form-error.php'; ?>
+                                    <?php $field = 'so_sao';
+                                    $inputId = 'so_sao';
+                                    include __DIR__ . '/components/form-error.php'; ?>
                                 </div>
 
                                 <div>
                                     <label for="danhGia" class="ds-label">Nhận xét chi tiết</label>
                                     <textarea id="danhGia" name="danhGia" placeholder="Chia sẻ trải nghiệm của bạn về sản phẩm này..."
-                                        class="<?= form_input_class($errors ?? [], 'danhGia', 'ds-input px-3 py-2.5 text-sm min-h-[100px] resize-none') ?>"<?= form_field_attrs($errors ?? [], 'danhGia', 'danhGia') ?>><?= form_old_value('danhGia') ?></textarea>
-                                    <?php $field = 'danhGia'; $inputId = 'danhGia'; include __DIR__ . '/components/form-error.php'; ?>
+                                        class="<?= form_input_class($errors ?? [], 'danhGia', 'ds-input px-3 py-2.5 text-sm min-h-[100px] resize-none') ?>" <?= form_field_attrs($errors ?? [], 'danhGia', 'danhGia') ?>><?= form_old_value('danhGia') ?></textarea>
+                                    <?php $field = 'danhGia';
+                                    $inputId = 'danhGia';
+                                    include __DIR__ . '/components/form-error.php'; ?>
                                 </div>
 
                                 <button type="submit" class="ds-btn-primary w-full py-3 text-sm mt-1">Gửi đánh giá</button>
@@ -151,7 +157,7 @@
     const next = document.getElementById('next');
     if (img && prv && next) {
         const arr = [
-            '/web-ban-hang/admin/uploads/<?php echo $list_san_pham["hinh_anh"] ?? ""; ?>',
+            '/web-ban-hang/public/uploads/<?php echo $list_san_pham["hinh_anh"] ?? ""; ?>',
             '/web-ban-hang/website/app/views/imgs/banner1.png',
             '/web-ban-hang/website/app/views/imgs/image.png',
             '/web-ban-hang/website/app/views/imgs/banner2.png'

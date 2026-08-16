@@ -224,6 +224,7 @@ class San_pham
         checkLogin();
 
         $product = $this->modelSanPham->ModelSanPham();
+        $listProductDelete = $this->modelSanPham->getAllDelete();
 
         require __DIR__ . '/../views/index-product.php';
     }
@@ -235,7 +236,8 @@ class San_pham
     {
 
         checkLogin();
-
+        $modelSanPham = new Data_san_pham();
+        $listProductDelete = $modelSanPham->getAllDelete();
         $list_loai = $this->modelLoaiHang->loaiHang();
 
         $errors = form_get_errors();
@@ -308,65 +310,91 @@ class San_pham
             header("Location: index.php?controller=san_pham&action=index");
 
             exit();
-        }
-
-
-
+        };
         require __DIR__ . '/../views/create.php';
     }
 
 
-
-    public function delete()
-
+    public function softDelete() // Xóa mềm
     {
-
         checkLogin();
-
-
 
         $productId = $this->validateProductId($_GET['id'] ?? '');
 
         if ($productId === null) {
-
             form_flash_error('Sản phẩm không tồn tại.');
 
             header("Location: index.php?controller=san_pham&action=index");
-
             exit();
         }
 
-
-
-        if ($this->productHasRelations($productId)) {
-
-            form_flash_error('Không thể xóa sản phẩm này.');
-
-            header("Location: index.php?controller=san_pham&action=index");
-
-            exit();
-        }
-
-
-
-        $product = $this->modelSanPham->find($productId);
-
-        if ($product && !empty($product['hinh_anh'])) {
-
-            @unlink(__DIR__ . '/../../../public/uploads/' . $product['hinh_anh']);
-        }
-
-
-
-        $this->modelSanPham->model_delete($productId);
-
-        form_flash_success('Xóa sản phẩm thành công.');
+        $this->modelSanPham->modelSoftDelete($productId);
 
         header("Location: index.php?controller=san_pham&action=index");
 
         exit();
     }
 
+    public function deleteForever()
+    {
+        checkLogin();
+
+        $productId = $this->validateProductId($_GET['id'] ?? '');
+
+        if ($productId === null) {
+            form_flash_error('Sản phẩm không tồn tại.');
+
+            header("Location: index.php?controller=san_pham&action=index");
+            exit();
+        }
+
+        // Lấy thông tin sản phẩm trước khi xóa
+        $product = $this->modelSanPham->find($productId);
+
+        if (!$product) {
+            form_flash_error('Sản phẩm không tồn tại.');
+
+            header("Location: index.php?controller=san_pham&action=index");
+            exit();
+        }
+
+        // Chỉ cho phép xóa cứng sản phẩm đã nằm trong thùng rác
+        if ((int)$product['da_xoa'] !== 1) {
+            form_flash_error('Sản phẩm chưa được đưa vào thùng rác.');
+
+            header("Location: index.php?controller=san_pham&action=index");
+            exit();
+        }
+
+        // Kiểm tra quan hệ với dữ liệu khác
+        if ($this->productHasRelations($productId)) {
+            form_flash_error('Không thể xóa sản phẩm này vì sản phẩm đang có dữ liệu liên quan.');
+
+            header("Location: index.php?controller=san_pham&action=index");
+            exit();
+        }
+
+        // Xóa ảnh sản phẩm
+        if (!empty($product['hinh_anh'])) {
+            $imagePath = __DIR__ . '/../../../public/uploads/' . $product['hinh_anh'];
+
+            if (file_exists($imagePath)) {
+                @unlink($imagePath);
+            }
+        }
+
+
+        $result = $this->modelSanPham->model_delete($productId);
+
+        if ($result) {
+            form_flash_success('Đã xóa vĩnh viễn sản phẩm.');
+        } else {
+            form_flash_error('Xóa sản phẩm thất bại.');
+        }
+
+        header("Location: index.php?controller=san_pham&action=index");
+        exit();
+    }
 
 
     public function update()
@@ -375,7 +403,8 @@ class San_pham
 
         checkLogin();
 
-
+        $modelSanPham = new Data_san_pham();
+        $listProductDelete = $modelSanPham->getAllDelete();
 
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
@@ -397,7 +426,6 @@ class San_pham
 
                 $san_pham_update = $this->modelSanPham->find($id) ?: [];
 
-                $list_loai = $this->modelLoaiHang->loaiHang();
 
                 require __DIR__ . '/../views/update.php';
 
@@ -492,6 +520,84 @@ class San_pham
 
         $errors = form_get_errors();
 
-        require __DIR__ . '/../views/update.php';
+        require_once __DIR__ . '/../views/update.php';
+    }
+    public function controllerRestoreProduct()
+    {
+        checkLogin();
+
+        $idSanPham = (int)($_GET['id'] ?? 0);
+
+        if ($idSanPham <= 0) {
+            form_flash_error('Sản phẩm không tồn tại.');
+
+            header("Location: index.php?controller=san_pham&action=index");
+            exit();
+        }
+
+        $result = $this->modelSanPham->restoreProduct($idSanPham);
+
+        if ($result) {
+            header("Location: index.php?controller=san_pham&action=index");
+            exit();
+        }
+
+        form_flash_error('Khôi phục sản phẩm thất bại.');
+
+        header("Location: index.php?controller=san_pham&action=index");
+        exit();
+    }
+    public function deleteAllForever()
+    {
+        try {
+            $model = new Data_san_pham();
+
+            $model->deleteAllForever();
+
+            header(
+                "Location: index.php?controller=san_pham&action=index"
+            );
+            exit;
+        } catch (PDOException $e) {
+
+            // Lỗi khóa ngoại
+            if ($e->getCode() === '23000') {
+
+                form_flash_error(
+                    'Không thể xóa sản phẩm vì sản phẩm đang có dữ liệu liên quan.'
+                );
+
+                header(
+                    "Location: index.php?controller=san_pham&action=index"
+                );
+                exit;
+            }
+
+            // Lỗi khác
+            form_flash_error(
+                'Đã xảy ra lỗi khi xóa sản phẩm.'
+            );
+
+            header(
+                "Location: index.php?controller=san_pham&action=index"
+            );
+            exit;
+        }
+    }
+    public function searchController()
+    {
+        $keyWord = trim($_GET['search'] ?? '');
+
+        if ($keyWord !== '') {
+
+            $product = $this->modelSanPham->modelShearch($keyWord);
+        } else {
+
+            $product = $this->modelSanPham->ModelSanPham();
+        }
+
+        $listProductDelete = $this->modelSanPham->getAllDelete();
+
+        require __DIR__ . '/../views/index-product.php';
     }
 }

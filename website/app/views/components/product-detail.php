@@ -245,7 +245,7 @@
 
 <!-- Mô tả sản phẩm -->
 <div class="mt-10 pt-8 border-t border-slate-200">
-    <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-6">Mô tả sản phẩm</h2>
+    <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-6">Mô tả & thông số</h2>
     <div class="product-description w-full text-sm sm:text-base leading-relaxed text-slate-600
         [&>p]:mb-5 [&>p:last-child]:mb-0
         [&>h2]:mt-8 [&>h2]:mb-4 [&>h2]:text-xl [&>h2]:font-bold [&>h2]:text-slate-900

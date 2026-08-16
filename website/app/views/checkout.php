@@ -53,27 +53,35 @@
                         <div class="space-y-4 sm:space-y-5">
                             <div>
                                 <label for="fullName" class="ds-label">Họ và tên</label>
-                                <input id="fullName" name="fullName" type="text" value="<?= form_old_value('fullName') ?>" placeholder="Nguyễn Văn A" class="<?= form_input_class($errors, 'fullName', 'ds-input h-11 sm:h-12 px-4 text-sm w-full') ?>"<?= form_field_attrs($errors, 'fullName', 'fullName') ?> />
-                                <?php $field = 'fullName'; $inputId = 'fullName'; include __DIR__ . '/components/form-error.php'; ?>
+                                <input id="fullName" name="fullName" type="text" value="<?= form_old_value('fullName') ?>" placeholder="Nguyễn Văn A" class="<?= form_input_class($errors, 'fullName', 'ds-input h-11 sm:h-12 px-4 text-sm w-full') ?>" <?= form_field_attrs($errors, 'fullName', 'fullName') ?> />
+                                <?php $field = 'fullName';
+                                $inputId = 'fullName';
+                                include __DIR__ . '/components/form-error.php'; ?>
                             </div>
                             <div>
                                 <label for="phone" class="ds-label">Số điện thoại</label>
-                                <input id="phone" name="phone" type="tel" value="<?= form_old_value('phone') ?>" placeholder="0901234567" class="<?= form_input_class($errors, 'phone', 'ds-input h-11 sm:h-12 px-4 text-sm w-full') ?>"<?= form_field_attrs($errors, 'phone', 'phone') ?> />
-                                <?php $field = 'phone'; $inputId = 'phone'; include __DIR__ . '/components/form-error.php'; ?>
+                                <input id="phone" name="phone" type="tel" value="<?= form_old_value('phone') ?>" placeholder="0901234567" class="<?= form_input_class($errors, 'phone', 'ds-input h-11 sm:h-12 px-4 text-sm w-full') ?>" <?= form_field_attrs($errors, 'phone', 'phone') ?> />
+                                <?php $field = 'phone';
+                                $inputId = 'phone';
+                                include __DIR__ . '/components/form-error.php'; ?>
                             </div>
                             <div>
                                 <label for="address" class="ds-label">Địa chỉ giao hàng</label>
-                                <textarea id="address" name="address" rows="3" placeholder="Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành..." class="<?= form_input_class($errors, 'address', 'ds-input px-4 py-3 text-sm w-full resize-none min-h-[96px]') ?>"<?= form_field_attrs($errors, 'address', 'address') ?>><?= form_old_value('address') ?></textarea>
-                                <?php $field = 'address'; $inputId = 'address'; include __DIR__ . '/components/form-error.php'; ?>
+                                <textarea id="address" name="address" rows="3" placeholder="Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành..." class="<?= form_input_class($errors, 'address', 'ds-input px-4 py-3 text-sm w-full resize-none min-h-[96px]') ?>" <?= form_field_attrs($errors, 'address', 'address') ?>><?= form_old_value('address') ?></textarea>
+                                <?php $field = 'address';
+                                $inputId = 'address';
+                                include __DIR__ . '/components/form-error.php'; ?>
                             </div>
                             <div>
                                 <label for="payment" class="ds-label">Phương thức thanh toán</label>
                                 <?php $paymentOld = form_old_raw('payment', 'COD'); ?>
-                                <select id="payment" name="payment" class="<?= form_input_class($errors, 'payment', 'ds-input h-11 sm:h-12 px-4 text-sm w-full cursor-pointer') ?>"<?= form_field_attrs($errors, 'payment', 'payment') ?>>
+                                <select id="payment" name="payment" class="<?= form_input_class($errors, 'payment', 'ds-input h-11 sm:h-12 px-4 text-sm w-full cursor-pointer') ?>" <?= form_field_attrs($errors, 'payment', 'payment') ?>>
                                     <option value="COD" <?= $paymentOld === 'COD' ? 'selected' : '' ?>>Thanh toán khi nhận hàng (COD)</option>
                                     <option value="VNPAY" <?= $paymentOld === 'VNPAY' ? 'selected' : '' ?>>Thanh toán qua VNPAY</option>
                                 </select>
-                                <?php $field = 'payment'; $inputId = 'payment'; include __DIR__ . '/components/form-error.php'; ?>
+                                <?php $field = 'payment';
+                                $inputId = 'payment';
+                                include __DIR__ . '/components/form-error.php'; ?>
                             </div>
                             <div>
                                 <label for="note" class="ds-label">Ghi chú đơn hàng (Tùy chọn)</label>
@@ -83,8 +91,10 @@
 
                         <div class="mt-6 border-t border-slate-100 pt-6">
                             <label for="couponInput" class="ds-label">Nhập mã giảm giá</label>
-                            <input type="text" id="couponInput" name="sale" value="<?= form_old_value('sale') ?>" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();}" placeholder="Ví dụ: GIAM20K, BEACH50..." class="<?= form_input_class($errors, 'sale', 'ds-input h-11 sm:h-12 px-4 text-sm w-full') ?>"<?= form_field_attrs($errors, 'sale', 'couponInput') ?> />
-                            <?php $field = 'sale'; $inputId = 'couponInput'; include __DIR__ . '/components/form-error.php'; ?>
+                            <input type="text" id="couponInput" name="sale" value="<?= form_old_value('sale') ?>" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();}" placeholder="Ví dụ: GIAM20K, BEACH50..." class="<?= form_input_class($errors, 'sale', 'ds-input h-11 sm:h-12 px-4 text-sm w-full') ?>" <?= form_field_attrs($errors, 'sale', 'couponInput') ?> />
+                            <?php $field = 'sale';
+                            $inputId = 'couponInput';
+                            include __DIR__ . '/components/form-error.php'; ?>
                             <p id="couponMessage" class="text-xs mt-1.5 font-medium hidden"></p>
                         </div>
 
@@ -110,7 +120,7 @@
                             ?>
                                     <div class="flex gap-3 sm:gap-4 items-center pb-4 border-b border-slate-100 last:border-0 last:pb-0">
                                         <div class="w-14 h-14 sm:w-16 sm:h-16 shrink-0 rounded-xl bg-slate-50 border border-slate-200 overflow-hidden flex items-center justify-center p-1">
-                                            <img src="/web-ban-hang/admin/public/uploads/<?php echo $item['hinh_anh']; ?>" alt="<?php echo htmlspecialchars($item['ten_san_pham']); ?>" class="w-full h-full object-contain" />
+                                            <img src="/web-ban-hang/public/uploads/<?php echo $item['hinh_anh']; ?>" alt="<?php echo htmlspecialchars($item['ten_san_pham']); ?>" class="w-full h-full object-contain" />
                                         </div>
                                         <div class="flex-1 min-w-0">
                                             <div class="font-medium text-sm text-slate-900 truncate"><?php echo $item['ten_san_pham']; ?></div>
@@ -118,7 +128,8 @@
                                         </div>
                                         <div class="font-semibold text-sm text-slate-900 whitespace-nowrap"><?php echo number_format($thanhTien, 0, ',', '.'); ?> ₫</div>
                                     </div>
-                            <?php endforeach; endif; ?>
+                            <?php endforeach;
+                            endif; ?>
                         </div>
 
                         <div class="space-y-3 text-sm pb-5 mb-5 border-b border-slate-100 text-slate-600">
@@ -158,10 +169,16 @@
 
     input.addEventListener("input", function() {
         const currentCode = this.value.trim();
-        if (!currentCode) { lastCheckedCode = ""; updateUI(0, ""); return; }
+        if (!currentCode) {
+            lastCheckedCode = "";
+            updateUI(0, "");
+            return;
+        }
         if (currentCode.toUpperCase() === lastCheckedCode.toUpperCase()) return;
         clearTimeout(this._timer);
-        this._timer = setTimeout(() => { applyCoupon(currentCode); }, 300);
+        this._timer = setTimeout(() => {
+            applyCoupon(currentCode);
+        }, 300);
     });
 
     input.addEventListener("paste", function() {
@@ -176,21 +193,25 @@
 
     function applyCoupon(code) {
         fetch("index.php?controller=buy&action=sale", {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: "sale=" + encodeURIComponent(code) + "&tongToanBo=" + originalTotal
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.status === "error") {
-                lastCheckedCode = "";
-                updateUI(0, data.message || "Mã không hợp lệ.", false);
-                return;
-            }
-            lastCheckedCode = code;
-            updateUI(parseFloat(data.discount) || 0, data.message || "Áp dụng mã thành công!", true);
-        })
-        .catch(() => { updateUI(0, "Không thể kiểm tra mã lúc này.", false); });
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: "sale=" + encodeURIComponent(code) + "&tongToanBo=" + originalTotal
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === "error") {
+                    lastCheckedCode = "";
+                    updateUI(0, data.message || "Mã không hợp lệ.", false);
+                    return;
+                }
+                lastCheckedCode = code;
+                updateUI(parseFloat(data.discount) || 0, data.message || "Áp dụng mã thành công!", true);
+            })
+            .catch(() => {
+                updateUI(0, "Không thể kiểm tra mã lúc này.", false);
+            });
     }
 
     function updateUI(discount, message, isSuccess) {

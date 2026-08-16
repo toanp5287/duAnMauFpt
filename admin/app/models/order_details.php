@@ -168,22 +168,63 @@ WHERE order_details.order_id = :id;
     }
     public function modelThongKe()
     {
-        $sql = " SELECT SUM(so_luong) AS soSP, COUNT(order_id) AS SOKH, COUNT(so_luong) AS sodonhang, SUM(gia) AS doanhThu 
-        FROM " . $this->table;
+        $sql = "SELECT 
+                SUM(order_details.so_luong) AS soSP,
+
+                COUNT(DISTINCT orders.user_id) AS SOKH,
+
+                COUNT(DISTINCT orders.id) AS sodonhang,
+
+                SUM(order_details.gia * order_details.so_luong) AS doanhThu,
+
+                COUNT(
+                    DISTINCT CASE 
+                        WHEN orders.trang_thai_id = 5 
+                        THEN orders.id 
+                    END
+                ) AS donHoanThanh,
+
+                COUNT(
+                    DISTINCT CASE 
+                        WHEN orders.trang_thai_id = 6 
+                        THEN orders.id 
+                    END
+                ) AS donHuy
+
+            FROM order_details
+
+            JOIN orders 
+                ON order_details.order_id = orders.id";
+
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
+
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+
     public function donchaynhat()
     {
-        $sql = "SELECT san_pham.ten_san_pham, SUM(order_details.so_luong) as tong_da_ban 
-        FROM " . $this->table . " 
-        JOIN san_pham ON order_details.san_pham_id = san_pham.id 
-        GROUP BY san_pham.id 
-        ORDER BY tong_da_ban DESC 
-        LIMIT 1;";
+        $sql = "SELECT 
+                san_pham.ten_san_pham,
+                SUM(order_details.so_luong) AS tong_da_ban
+
+            FROM order_details
+
+            JOIN san_pham 
+                ON order_details.san_pham_id = san_pham.id
+
+            GROUP BY 
+                san_pham.id,
+                san_pham.ten_san_pham
+
+            ORDER BY tong_da_ban DESC
+
+            LIMIT 1";
+
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
+
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     public function insertMessage($order_id, $user_id, $message, $is_read)

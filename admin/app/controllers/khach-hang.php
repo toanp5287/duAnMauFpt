@@ -4,17 +4,41 @@
 class Khach_hang
 {
     private $modelKhachHang;
+
     public function __construct()
     {
         $this->modelKhachHang = new Model_khach_hang();
     }
+
     public function index()
     {
-        checkLogin();
-        $id = '';
-        $khach_hang = $this->modelKhachHang->data_khach_hang($id);
+        // Số đơn mỗi trang
+        $limit = 10;
 
-        require __DIR__ . '/../views/khach-hang.php';
+        // Trang hiện tại
+        $page = isset($_GET['page'])
+            ? max(1, (int)$_GET['page'])
+            : 1;
+
+
+        // Lấy danh sách đơn hàng
+        $khach_hang = $this->modelKhachHang->data_khach_hang(
+            null,
+            $page,
+            $limit
+        );
+
+
+        // Tổng số đơn hàng
+        $totalOrders = $this->modelKhachHang->count_khach_hang();
+
+
+        // Tổng số trang
+        $totalPages = ceil($totalOrders / $limit);
+        $modelSanPham = new Data_san_pham();
+        $listProductDelete = $modelSanPham->getAllDelete();
+
+        require_once __DIR__ . '/../views/khach-hang.php';
     }
     // public function delete()
     // {

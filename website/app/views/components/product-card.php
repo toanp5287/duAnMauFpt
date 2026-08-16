@@ -4,7 +4,7 @@
         <span class="badge-new absolute top-2.5 left-2.5 z-10 text-[10px] font-semibold uppercase tracking-wide text-blue-600 bg-blue-50 px-2 py-0.5 rounded-md">NEW</span>
         <span class="badge-hot absolute top-2.5 left-2.5 z-10 text-[10px] font-semibold uppercase tracking-wide text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-100">HOT</span>
         <span class="badge-sale absolute top-2.5 left-2.5 z-10 text-[10px] font-semibold uppercase tracking-wide text-green-600 bg-green-50 px-2 py-0.5 rounded-md border border-green-100">SALE</span>
-        <img src="/web-ban-hang/admin/public/uploads/<?php echo $row['hinh_anh']; ?>"
+        <img src="/web-ban-hang/public/uploads/<?php echo $row['hinh_anh']; ?>"
             alt="<?php echo htmlspecialchars($row['ten_san_pham']); ?>"
             class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105" />
     </a>

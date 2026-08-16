@@ -51,12 +51,20 @@
                             method="GET"
                             class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
 
-                            <input type="hidden" name="controller" value="tour">
-                            <input type="hidden" name="action" value="search">
+                            <input
+                                type="hidden"
+                                name="controller"
+                                value="san_pham">
+
+                            <input
+                                type="hidden"
+                                name="action"
+                                value="searchController">
 
                             <input
                                 type="search"
-                                name="ten_loai"
+                                name="search"
+                                value="<?= htmlspecialchars($_GET['search'] ?? '') ?>"
                                 placeholder="Tìm tên sản phẩm..."
                                 class="adm-input h-10 px-4 text-sm w-full sm:min-w-[200px]">
 
@@ -513,12 +521,12 @@
 
             if (
                 confirm(
-                    'Bạn chắc chắn muốn xóa sản phẩm này? Hành động không thể hoàn tác!'
+                    'Đưa vào thùng rác!'
                 )
             ) {
 
                 window.location.href =
-                    `index.php?controller=san_pham&action=delete&id=${productId}`;
+                    `index.php?controller=san_pham&action=softDelete&id=${productId}`;
 
             }
 

@@ -26,12 +26,15 @@ class Order_detail
         $trangThai = $this->modelHangChiTiet->dataTrangThai();
 
         $thongTin = $this->modelKhachHang->data_khach_hang($id);
-        $order_id = $thongTin['id'];
-        // print_r($order_id);
-        // die();
-        $order_messages = $this->modelHangChiTiet->message($order_id);
 
-        $message = $order_messages['message'] ?? '' ;
+        // echo "<pre>";
+        // print_r($thongTin);
+        // echo "</pre>";
+        // die();
+
+        $order_messages = $this->modelHangChiTiet->message($id);
+
+        $message = $order_messages['message'] ?? '';
 
 
 
@@ -45,7 +48,8 @@ class Order_detail
             5 => [7],
             7 => [8],
         ];
-
+        $modelSanPham = new Data_san_pham();
+        $listProductDelete = $modelSanPham->getAllDelete();
         require __DIR__ . '/../views/order_detail.php';
     }
     public function delete()
@@ -61,7 +65,8 @@ class Order_detail
         $keyword = trim($_GET['keyword'] ?? '');
         $model = new Model_order_detel;
         $don_hang =  $model->model_search($keyword);
-
+        $modelSanPham = new Data_san_pham();
+        $listProductDelete = $modelSanPham->getAllDelete();
         require __DIR__ . '/../views/order_detail.php';
     }
     public function approve_orders()
@@ -165,4 +170,17 @@ class Order_detail
     //     $order_id = $_POST['order_id'] ?? '';
     //     $this->modelHangChiTiet->donchaynhat();
     // }
+    public function thongKe()
+    {
+        $modelSanPham = new Data_san_pham();
+        $listProductDelete = $modelSanPham->getAllDelete();
+        // Lấy dữ liệu thống kê
+        $data = $this->modelHangChiTiet->modelThongKe();
+
+        // Lấy sản phẩm bán chạy nhất
+        $hotNhat = $this->modelHangChiTiet->donchaynhat();
+
+        // Gọi giao diện thống kê
+        require_once __DIR__ . '/../views/doanhThu.php';
+    }
 }
